@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>大厂必备 Git 操作基础</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f6f8fa;
+      --surface2: #eaeef2;
+      --border: #d0d7de;
+      --accent: #0969da;
+      --accent2: #1a7f37;
+      --warn: #9a6700;
+      --danger: #cf222e;
+      --text: #1f2328;
+      --text-muted: #656d76;
+      --code-bg: #f6f8fa;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117;
+        --surface: #161b22;
+        --surface2: #21262d;
+        --border: #30363d;
+        --accent: #58a6ff;
+        --accent2: #3fb950;
+        --warn: #d29922;
+        --danger: #f85149;
+        --text: #e6edf3;
+        --text-muted: #8b949e;
+        --code-bg: #1f2428;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--bg) 0%, var(--surface) 50%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(88,166,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #0969da, #1a7f37);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      header h1 {
+        background: linear-gradient(90deg, #58a6ff, #3fb950);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+    }
+
+    header p {
+      margin-top: 12px;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+
+    .toc h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .toc ol {
+      padding-left: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 24px;
+    }
+
+    .toc a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.92rem;
+    }
+
+    .toc a:hover { text-decoration: underline; }
+
+    section {
+      margin-bottom: 48px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #3fb950);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #0d1117;
+      flex-shrink: 0;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 20px 0 10px;
+    }
+
+    p {
+      color: var(--text);
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+
+    .card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 12px 0;
+      position: relative;
+    }
+
+    pre::before {
+      content: attr(data-label);
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    code {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    .inline-code {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.85em;
+      color: #e3b341;
+    }
+
+    .comment { color: #57606a; }
+    .cmd { color: #0550ae; }
+    .flag { color: #953800; }
+    .str { color: #0a3069; }
+    .branch { color: #1a7f37; }
+
+    @media (prefers-color-scheme: dark) {
+      .comment { color: #6a9955; }
+      .cmd { color: #79c0ff; }
+      .flag { color: #ffab70; }
+      .str { color: #a5d6ff; }
+      .branch { color: #3fb950; }
+    }
+
+    .tip {
+      background: rgba(63,185,80,0.08);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 0.9rem;
+    }
+
+    .tip strong { color: var(--accent2); }
+
+    .warn-box {
+      background: rgba(210,153,34,0.08);
+      border-left: 3px solid var(--warn);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 0.9rem;
+    }
+
+    .warn-box strong { color: var(--warn); }
+
+    .danger-box {
+      background: rgba(248,81,73,0.08);
+      border-left: 3px solid var(--danger);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 0.9rem;
+    }
+
+    .danger-box strong { color: var(--danger); }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+
+    .flow-step {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      text-align: center;
+      min-width: 110px;
+    }
+
+    .flow-step span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .flow-arrow {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      padding: 0 6px;
+    }
+
+    .cmd-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 0.88rem;
+    }
+
+    .cmd-table th {
+      background: var(--surface2);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cmd-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .cmd-table tr:last-child td { border-bottom: none; }
+
+    .cmd-table tr:hover td { background: var(--surface); }
+
+    .cmd-table td:first-child {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      color: #79c0ff;
+      white-space: nowrap;
+    }
+
+    .cmd-table td:last-child {
+      color: var(--text-muted);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .tag-daily { background: rgba(88,166,255,0.15); color: var(--accent); }
+    .tag-danger { background: rgba(248,81,73,0.15); color: var(--danger); }
+    .tag-team { background: rgba(63,185,80,0.15); color: var(--accent2); }
+    .tag-pro { background: rgba(210,153,34,0.15); color: var(--warn); }
+
+    footer {
+      text-align: center;
+      padding: 32px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 600px) {
+      .toc ol { grid-template-columns: 1fr; }
+      .flow { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>大厂必备 Git 操作基础</h1>
+  <p>从入职第一天到独立协作，系统掌握版本控制核心技能</p>
+  <div class="badge-row">
+    <span class="badge">日常开发</span>
+    <span class="badge">分支管理</span>
+    <span class="badge">代码审查</span>
+    <span class="badge">团队协作</span>
+    <span class="badge">事故回滚</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- 目录 -->
+  <div class="toc">
+    <h2>目录</h2>
+    <ol>
+      <li><a href="#s1">环境配置 & 基础概念</a></li>
+      <li><a href="#s2">日常开发流程</a></li>
+      <li><a href="#s3">分支管理策略</a></li>
+      <li><a href="#s4">远程仓库协作</a></li>
+      <li><a href="#s5">提交规范</a></li>
+      <li><a href="#s6">合并 & 变基</a></li>
+      <li><a href="#s7">代码审查 & PR</a></li>
+      <li><a href="#s8">撤销 & 回滚</a></li>
+      <li><a href="#s9">进阶技巧</a></li>
+      <li><a href="#s10">常见事故处理</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. 环境配置 -->
+  <section id="s1">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>环境配置 & 基础概念</h2>
+    </div>
+
+    <p>入职第一件事：配置好身份信息，避免提交记录混乱。</p>
+
+    <pre data-label="Terminal"><code><span class="comment"># 配置用户信息（全局）</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> user.name  <span class="str">"张三"</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> user.email <span class="str">"zhangsan@company.com"</span>
+
+<span class="comment"># 配置默认编辑器（推荐 VS Code）</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> core.editor <span class="str">"code --wait"</span>
+
+<span class="comment"># 配置默认分支名为 main</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> init.defaultBranch main
+
+<span class="comment"># 查看当前所有配置</span>
+<span class="cmd">git config</span> <span class="flag">--list</span></code></pre>
+
+    <h3>三个工作区域</h3>
+    <div class="flow">
+      <div class="flow-step"><span>Working Directory</span>工作区</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span>git add</span>暂存区 Index</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span>git commit</span>本地仓库</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span>git push</span>远程仓库</div>
+    </div>
+
+    <div class="tip">
+      <strong>提示：</strong>公司项目通常使用 SSH Key 认证。入职后先配置 <span class="inline-code">~/.ssh/id_ed25519</span>，并将公钥添加到 GitLab/GitHub 账户。
+    </div>
+  </section>
+
+  <!-- 2. 日常开发流程 -->
+  <section id="s2">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>日常开发流程</h2>
+    </div>
+
+    <p>大厂每天最高频的操作，必须形成肌肉记忆。</p>
+
+    <pre data-label="日常开发"><code><span class="comment"># 查看状态（改动了哪些文件）</span>
+<span class="cmd">git status</span>
+
+<span class="comment"># 查看具体改动内容</span>
+<span class="cmd">git diff</span>                   <span class="comment"># 工作区 vs 暂存区</span>
+<span class="cmd">git diff</span> <span class="flag">--staged</span>          <span class="comment"># 暂存区 vs 上次提交</span>
+
+<span class="comment"># 暂存文件</span>
+<span class="cmd">git add</span> src/feature.ts     <span class="comment"># 指定文件</span>
+<span class="cmd">git add</span> <span class="flag">-p</span>                <span class="comment"># 交互式选择代码块（推荐！）</span>
+<span class="cmd">git add</span> .                  <span class="comment"># 所有改动（谨慎用）</span>
+
+<span class="comment"># 提交</span>
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="str">"feat: 新增用户登录功能"</span>
+
+<span class="comment"># 查看提交历史</span>
+<span class="cmd">git log</span> <span class="flag">--oneline --graph --decorate</span>  <span class="comment"># 推荐加这些参数</span></code></pre>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h4>git status</h4>
+        <p>随时查看工作区状态，是最常用的命令之一，没有副作用，放心用。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h4>git diff -p</h4>
+        <p>交互式暂存，可以只提交同一个文件里的部分改动，保持提交原子性。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📜</div>
+        <h4>git log --oneline</h4>
+        <p>简洁历史视图，加 --graph 可以看分支合并图，非常直观。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 分支管理 -->
+  <section id="s3">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>分支管理策略</h2>
+    </div>
+
+    <p>大厂通常采用 <strong>Git Flow</strong> 或 <strong>Trunk-Based Development</strong> 策略，理解分支模型是协作的前提。</p>
+
+    <h3>常用分支命令</h3>
+    <pre data-label="Branch"><code><span class="comment"># 查看分支</span>
+<span class="cmd">git branch</span>                            <span class="comment"># 本地分支</span>
+<span class="cmd">git branch</span> <span class="flag">-a</span>                         <span class="comment"># 包括远程分支</span>
+
+<span class="comment"># 创建 & 切换（推荐写法）</span>
+<span class="cmd">git switch</span> <span class="flag">-c</span> <span class="branch">feature/user-login</span>      <span class="comment"># 新建并切换</span>
+<span class="cmd">git switch</span> <span class="branch">main</span>                       <span class="comment"># 切换已有分支</span>
+
+<span class="comment"># 老写法（仍然常见）</span>
+<span class="cmd">git checkout</span> <span class="flag">-b</span> <span class="branch">feature/user-login</span>
+
+<span class="comment"># 删除分支</span>
+<span class="cmd">git branch</span> <span class="flag">-d</span> <span class="branch">feature/user-login</span>      <span class="comment"># 已合并才能删</span>
+<span class="cmd">git branch</span> <span class="flag">-D</span> <span class="branch">feature/user-login</span>      <span class="comment"># 强制删除</span></code></pre>
+
+    <h3>大厂分支命名规范</h3>
+    <table class="cmd-table">
+      <tr><th>前缀</th><th>用途</th><th>示例</th></tr>
+      <tr><td>feature/</td><td>新功能开发</td><td>feature/user-login</td></tr>
+      <tr><td>fix/</td><td>Bug 修复</td><td>fix/login-crash-ios</td></tr>
+      <tr><td>hotfix/</td><td>生产紧急修复</td><td>hotfix/payment-null-pointer</td></tr>
+      <tr><td>release/</td><td>版本发布准备</td><td>release/v2.3.0</td></tr>
+      <tr><td>chore/</td><td>工具/依赖更新</td><td>chore/upgrade-react-18</td></tr>
+      <tr><td>refactor/</td><td>重构（不改功能）</td><td>refactor/extract-auth-module</td></tr>
+    </table>
+  </section>
+
+  <!-- 4. 远程协作 -->
+  <section id="s4">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>远程仓库协作</h2>
+    </div>
+
+    <pre data-label="Remote"><code><span class="comment"># 拉取最新代码（推荐）</span>
+<span class="cmd">git pull</span> <span class="flag">--rebase</span> origin <span class="branch">main</span>   <span class="comment"># rebase 方式，历史更整洁</span>
+
+<span class="comment"># 等价于以下两步</span>
+<span class="cmd">git fetch</span> origin
+<span class="cmd">git rebase</span> origin/<span class="branch">main</span>
+
+<span class="comment"># 推送分支</span>
+<span class="cmd">git push</span> origin <span class="branch">feature/user-login</span>
+<span class="cmd">git push</span> <span class="flag">-u</span> origin <span class="branch">feature/user-login</span>  <span class="comment"># 设置上游，之后只需 git push</span>
+
+<span class="comment"># 查看远程信息</span>
+<span class="cmd">git remote</span> <span class="flag">-v</span>
+
+<span class="comment"># 从远程拉取新分支到本地</span>
+<span class="cmd">git fetch</span> origin
+<span class="cmd">git switch</span> <span class="branch">feature/other-dev-branch</span>  <span class="comment"># 自动跟踪远程</span></code></pre>
+
+    <div class="tip">
+      <strong>最佳实践：</strong>开始一天工作前，先 <span class="inline-code">git pull --rebase</span> 同步主干，避免本地积累太多分歧，PR 时冲突爆炸。
+    </div>
+  </section>
+
+  <!-- 5. 提交规范 -->
+  <section id="s5">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>提交规范（Conventional Commits）</h2>
+    </div>
+
+    <p>大厂的 CI/CD 流水线、CHANGELOG 自动生成都依赖规范的 commit message。</p>
+
+    <pre data-label="Commit Message"><code><span class="comment"># 格式：&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span>
+
+feat(auth): 新增 OAuth2 第三方登录支持
+fix(cart): 修复商品数量为 0 时仍可结算的问题
+docs(api): 更新用户接口文档
+style(home): 统一首页按钮圆角为 8px
+refactor(db): 将 MySQL 查询抽象为 Repository 层
+test(order): 补充订单状态机单元测试
+chore(deps): 升级 Spring Boot 至 3.2.0
+perf(search): 添加商品搜索结果缓存，P99 降低 60%</code></pre>
+
+    <h3>Type 速查</h3>
+    <table class="cmd-table">
+      <tr><th>Type</th><th>含义</th></tr>
+      <tr><td>feat</td><td>新功能（会出现在 CHANGELOG）</td></tr>
+      <tr><td>fix</td><td>Bug 修复（会出现在 CHANGELOG）</td></tr>
+      <tr><td>docs</td><td>仅文档变更</td></tr>
+      <tr><td>style</td><td>代码格式，不影响逻辑</td></tr>
+      <tr><td>refactor</td><td>重构，既非新功能也非修 bug</td></tr>
+      <tr><td>test</td><td>添加或修改测试</td></tr>
+      <tr><td>chore</td><td>构建过程、辅助工具变更</td></tr>
+      <tr><td>perf</td><td>性能优化</td></tr>
+      <tr><td>ci</td><td>CI 配置变更</td></tr>
+    </table>
+
+    <div class="warn-box">
+      <strong>注意：</strong>破坏性变更（Breaking Change）需在 type 后加 <span class="inline-code">!</span>，如 <span class="inline-code">feat!: 重命名用户 API 路径</span>，或在 body 中写 <span class="inline-code">BREAKING CHANGE: ...</span>。
+    </div>
+  </section>
+
+  <!-- 6. 合并与变基 -->
+  <section id="s6">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>合并 & 变基</h2>
+    </div>
+
+    <h3>Merge vs Rebase</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🔀</div>
+        <h4>git merge</h4>
+        <p>保留完整历史，生成 merge commit。多人协作的公共分支用这个，历史可追溯。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <h4>git rebase</h4>
+        <p>线性历史，更整洁。个人 feature 分支同步主干时推荐，不要对已推送的公共分支 rebase。</p>
+      </div>
+    </div>
+
+    <pre data-label="Merge & Rebase"><code><span class="comment"># 场景：feature 分支同步 main 最新代码</span>
+<span class="cmd">git switch</span> <span class="branch">feature/user-login</span>
+<span class="cmd">git rebase</span> <span class="branch">main</span>              <span class="comment"># 将 feature 的提交接到 main 顶端</span>
+
+<span class="comment"># 解决冲突后继续</span>
+<span class="comment"># 1. 编辑冲突文件</span>
+<span class="cmd">git add</span> &lt;冲突文件&gt;
+<span class="cmd">git rebase</span> <span class="flag">--continue</span>
+
+<span class="comment"># 中途想放弃 rebase</span>
+<span class="cmd">git rebase</span> <span class="flag">--abort</span>
+
+<span class="comment"># 交互式 rebase：整理提交历史（PR 前清理）</span>
+<span class="cmd">git rebase</span> <span class="flag">-i</span> HEAD~3          <span class="comment"># 整理最近 3 个提交</span>
+<span class="comment"># pick  = 保留</span>
+<span class="comment"># squash = 合并到上一个</span>
+<span class="comment"># reword = 修改提交信息</span></code></pre>
+
+    <div class="danger-box">
+      <strong>黄金法则：</strong>永远不要对已经推送到远程的公共分支（main、develop）执行 rebase，会导致其他人历史混乱。
+    </div>
+  </section>
+
+  <!-- 7. PR 代码审查 -->
+  <section id="s7">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>代码审查 & Pull Request</h2>
+    </div>
+
+    <p>大厂所有代码必须经过 PR + Code Review 才能合入主干，这是质量保障的核心环节。</p>
+
+    <h3>提 PR 前自检</h3>
+    <pre data-label="Pre-PR Checklist"><code><span class="comment"># 1. 同步主干，解决冲突</span>
+<span class="cmd">git fetch</span> origin
+<span class="cmd">git rebase</span> origin/<span class="branch">main</span>
+
+<span class="comment"># 2. 清理提交历史（squash 零散 WIP 提交）</span>
+<span class="cmd">git rebase</span> <span class="flag">-i</span> origin/<span class="branch">main</span>
+
+<span class="comment"># 3. 查看本次 PR 包含哪些改动</span>
+<span class="cmd">git diff</span> origin/<span class="branch">main</span>...<span class="branch">HEAD</span>
+<span class="cmd">git log</span> origin/<span class="branch">main</span>...<span class="branch">HEAD</span> <span class="flag">--oneline</span>
+
+<span class="comment"># 4. 推送并创建 PR</span>
+<span class="cmd">git push</span> <span class="flag">-u</span> origin <span class="branch">feature/user-login</span></code></pre>
+
+    <h3>Review 中 reviewer 要求修改</h3>
+    <pre data-label="After Review"><code><span class="comment"># 在原分支上继续提交修改</span>
+<span class="cmd">git add</span> .
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="str">"fix: 根据 review 意见修复 token 过期处理"</span>
+<span class="cmd">git push</span>                          <span class="comment"># PR 自动更新</span>
+
+<span class="comment"># 如果需要修改最后一次提交内容（未推送时）</span>
+<span class="cmd">git commit</span> <span class="flag">--amend</span> <span class="flag">--no-edit</span>     <span class="comment"># 代码修改并入上一条提交</span>
+<span class="cmd">git push</span> <span class="flag">--force-with-lease</span>       <span class="comment"># 比 --force 更安全</span></code></pre>
+
+    <div class="tip">
+      <strong>提示：</strong>使用 <span class="inline-code">--force-with-lease</span> 而非 <span class="inline-code">--force</span>，前者会检查远程是否有你不知道的新提交，避免覆盖别人的工作。
+    </div>
+  </section>
+
+  <!-- 8. 撤销回滚 -->
+  <section id="s8">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>撤销 & 回滚</h2>
+    </div>
+
+    <p>操作失误时冷静选择正确命令，避免越搞越乱。</p>
+
+    <table class="cmd-table">
+      <tr><th>场景</th><th>命令</th><th>说明</th></tr>
+      <tr>
+        <td>撤销工作区修改（未 add）</td>
+        <td>git restore &lt;file&gt;</td>
+        <td>文件回到上次提交状态</td>
+      </tr>
+      <tr>
+        <td>撤销暂存（已 add 未 commit）</td>
+        <td>git restore --staged &lt;file&gt;</td>
+        <td>从暂存区移出，改动保留</td>
+      </tr>
+      <tr>
+        <td>修改最后一次提交</td>
+        <td>git commit --amend</td>
+        <td>仅用于未推送的提交</td>
+      </tr>
+      <tr>
+        <td>撤销某次提交（安全）<span class="tag tag-team">推荐</span></td>
+        <td>git revert &lt;commit-hash&gt;</td>
+        <td>生成新的"撤销提交"，历史保留</td>
+      </tr>
+      <tr>
+        <td>回退到某次提交（危险）<span class="tag tag-danger">危险</span></td>
+        <td>git reset --hard &lt;hash&gt;</td>
+        <td>丢弃之后所有提交，不可逆</td>
+      </tr>
+      <tr>
+        <td>紧急回滚已发布版本</td>
+        <td>git revert HEAD</td>
+        <td>最安全的生产回滚方式</td>
+      </tr>
+    </table>
+
+    <pre data-label="Revert vs Reset"><code><span class="comment"># 安全回滚：生产故障时用 revert</span>
+<span class="cmd">git revert</span> abc1234               <span class="comment"># 撤销特定提交</span>
+<span class="cmd">git revert</span> HEAD~2..HEAD          <span class="comment"># 撤销最近 2 个提交</span>
+<span class="cmd">git push</span>                          <span class="comment"># 推送回滚提交</span>
+
+<span class="comment"># reset 三种模式（慎用）</span>
+<span class="cmd">git reset</span> <span class="flag">--soft</span>  HEAD~1         <span class="comment"># 撤销提交，改动留在暂存区</span>
+<span class="cmd">git reset</span> <span class="flag">--mixed</span> HEAD~1         <span class="comment"># 撤销提交，改动留在工作区（默认）</span>
+<span class="cmd">git reset</span> <span class="flag">--hard</span>  HEAD~1         <span class="comment"># 撤销提交，改动全部丢弃 ⚠️</span></code></pre>
+
+    <div class="danger-box">
+      <strong>生产事故原则：</strong>已推送到主干的 commit 只用 <span class="inline-code">git revert</span>，绝对不用 <span class="inline-code">reset --hard</span> + force push。
+    </div>
+  </section>
+
+  <!-- 9. 进阶技巧 -->
+  <section id="s9">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h2>进阶技巧</h2>
+    </div>
+
+    <h3>stash — 临时搁置</h3>
+    <pre data-label="Stash"><code><span class="comment"># 场景：正在开发，突然要切换分支处理 bug</span>
+<span class="cmd">git stash push</span> <span class="flag">-m</span> <span class="str">"WIP: 用户登录页半成品"</span>
+<span class="cmd">git switch</span> <span class="branch">fix/urgent-bug</span>
+
+<span class="comment"># 处理完 bug 回来恢复</span>
+<span class="cmd">git switch</span> <span class="branch">feature/user-login</span>
+<span class="cmd">git stash list</span>                   <span class="comment"># 查看所有 stash</span>
+<span class="cmd">git stash pop</span>                    <span class="comment"># 恢复最新 stash 并删除</span>
+<span class="cmd">git stash apply</span> stash@{1}        <span class="comment"># 恢复指定 stash（保留）</span></code></pre>
+
+    <h3>cherry-pick — 挑选提交</h3>
+    <pre data-label="Cherry-pick"><code><span class="comment"># 场景：把 feature 分支上某个 commit 应用到 hotfix 分支</span>
+<span class="cmd">git switch</span> <span class="branch">hotfix/urgent</span>
+<span class="cmd">git cherry-pick</span> abc1234          <span class="comment"># 挑选特定提交</span>
+<span class="cmd">git cherry-pick</span> abc1234..def5678 <span class="comment"># 挑选一段范围</span></code></pre>
+
+    <h3>bisect — 二分查找问题提交</h3>
+    <pre data-label="Bisect"><code><span class="comment"># 场景：不知道哪次提交引入了 bug</span>
+<span class="cmd">git bisect start</span>
+<span class="cmd">git bisect bad</span>                   <span class="comment"># 当前版本有 bug</span>
+<span class="cmd">git bisect good</span> v1.2.0           <span class="comment"># 这个版本没问题</span>
+<span class="comment"># Git 自动二分，你测试后输入 good/bad</span>
+<span class="cmd">git bisect good</span>                  <span class="comment"># 或 git bisect bad</span>
+<span class="comment"># 找到问题提交后</span>
+<span class="cmd">git bisect reset</span>                 <span class="comment"># 恢复原始状态</span></code></pre>
+
+    <h3>常用 alias 配置</h3>
+    <pre data-label="Git Aliases"><code><span class="cmd">git config</span> <span class="flag">--global</span> alias.lg  <span class="str">"log --oneline --graph --decorate --all"</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> alias.st  <span class="str">"status -sb"</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> alias.co  <span class="str">"switch"</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> alias.undo <span class="str">"reset --soft HEAD~1"</span>
+
+<span class="comment"># 之后可以这样用</span>
+<span class="cmd">git</span> lg     <span class="comment"># 漂亮的分支图</span>
+<span class="cmd">git</span> undo   <span class="comment"># 安全撤销最后一次提交</span></code></pre>
+  </section>
+
+  <!-- 10. 常见事故 -->
+  <section id="s10">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>常见事故处理</h2>
+    </div>
+
+    <h3>误删分支 / 误 reset</h3>
+    <pre data-label="reflog 救命"><code><span class="comment"># reflog 记录了所有 HEAD 的移动历史，是 Git 的"后悔药"</span>
+<span class="cmd">git reflog</span>
+<span class="comment"># 输出类似：</span>
+<span class="comment"># abc1234 HEAD@{0}: reset: moving to HEAD~3</span>
+<span class="comment"># def5678 HEAD@{1}: commit: feat: 新增支付功能</span>
+
+<span class="comment"># 恢复到误操作前的状态</span>
+<span class="cmd">git reset</span> <span class="flag">--hard</span> def5678
+
+<span class="comment"># 恢复误删的分支</span>
+<span class="cmd">git branch</span> <span class="branch">feature/recovered</span> def5678</code></pre>
+
+    <h3>提交了敏感信息（密码/密钥）</h3>
+    <pre data-label="移除敏感信息"><code><span class="comment"># 如果还没推送：修改最后一次提交</span>
+<span class="cmd">git commit</span> <span class="flag">--amend</span>
+
+<span class="comment"># 如果已推送：立即做这两件事</span>
+<span class="comment"># 1. 吊销/轮换密钥（最重要！！！）</span>
+<span class="comment"># 2. 使用 git filter-repo 从历史中彻底删除</span>
+<span class="cmd">pip install git-filter-repo</span>
+<span class="cmd">git filter-repo</span> <span class="flag">--path</span> secrets.env <span class="flag">--invert-paths</span></code></pre>
+
+    <div class="warn-box">
+      <strong>记住：</strong>一旦推送到远程，就应假设密钥已泄露，<strong>必须先吊销密钥</strong>，清理历史是第二步。
+    </div>
+
+    <h3>合并冲突不知道怎么解</h3>
+    <pre data-label="Conflict Resolution"><code><span class="comment"># 冲突文件长这样：</span>
+<span class="comment"># &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD（你的改动）</span>
+<span class="comment"># const timeout = 5000;</span>
+<span class="comment"># =======</span>
+<span class="comment"># const timeout = 3000;</span>
+<span class="comment"># &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/optimize（对方的改动）</span>
+
+<span class="comment"># 使用 mergetool 可视化解决</span>
+<span class="cmd">git mergetool</span>                    <span class="comment"># 打开配置的可视化工具</span>
+
+<span class="comment"># 或者直接编辑文件后</span>
+<span class="cmd">git add</span> &lt;解决后的文件&gt;
+<span class="cmd">git rebase</span> <span class="flag">--continue</span>           <span class="comment"># 或 git merge --continue</span>
+
+<span class="comment"># 实在不确定，放弃本次操作</span>
+<span class="cmd">git rebase</span> <span class="flag">--abort</span>
+<span class="cmd">git merge</span>  <span class="flag">--abort</span></code></pre>
+  </section>
+
+  <!-- 速查卡 -->
+  <section>
+    <div class="section-header">
+      <div class="section-number">★</div>
+      <h2>高频命令速查卡</h2>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>命令</th><th>说明</th><th>标签</th></tr>
+      <tr><td>git status</td><td>查看工作区状态</td><td><span class="tag tag-daily">日常</span></td></tr>
+      <tr><td>git add -p</td><td>交互式暂存代码块</td><td><span class="tag tag-pro">进阶</span></td></tr>
+      <tr><td>git commit -m "..."</td><td>提交（遵循规范）</td><td><span class="tag tag-daily">日常</span></td></tr>
+      <tr><td>git pull --rebase</td><td>同步主干（线性历史）</td><td><span class="tag tag-team">协作</span></td></tr>
+      <tr><td>git push -u origin &lt;branch&gt;</td><td>首次推送并绑定上游</td><td><span class="tag tag-daily">日常</span></td></tr>
+      <tr><td>git switch -c &lt;branch&gt;</td><td>新建并切换分支</td><td><span class="tag tag-daily">日常</span></td></tr>
+      <tr><td>git rebase -i HEAD~N</td><td>清理最近 N 个提交</td><td><span class="tag tag-pro">进阶</span></td></tr>
+      <tr><td>git stash push -m "..."</td><td>临时搁置工作</td><td><span class="tag tag-daily">日常</span></td></tr>
+      <tr><td>git revert &lt;hash&gt;</td><td>安全回滚提交</td><td><span class="tag tag-team">协作</span></td></tr>
+      <tr><td>git reflog</td><td>找回任何历史状态</td><td><span class="tag tag-pro">进阶</span></td></tr>
+      <tr><td>git bisect</td><td>二分查找引入 bug 的提交</td><td><span class="tag tag-pro">进阶</span></td></tr>
+      <tr><td>git cherry-pick &lt;hash&gt;</td><td>挑选指定提交</td><td><span class="tag tag-pro">进阶</span></td></tr>
+      <tr><td>git push --force-with-lease</td><td>安全强推（替代 --force）</td><td><span class="tag tag-danger">慎用</span></td></tr>
+    </table>
+  </section>
+
+</div>
+
+<footer>
+  <p>Git 核心知识手册 · 掌握这些，从容应对大厂日常协作</p>
+  <p style="margin-top:8px;">git version 2.x · 适用于 GitHub / GitLab / Gitee 工作流</p>
+</footer>
+
+</body>
+</html>
