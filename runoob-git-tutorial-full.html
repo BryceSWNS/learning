@@ -1,0 +1,2939 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git 教程（Runoob 合并提取版）</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; line-height: 1.72; color:#111827; max-width:980px; margin:24px auto; padding:0 16px; }
+h1,h2 { line-height:1.3; }
+img { max-width:100%; height:auto; }
+pre { background:#fefbec; color:#2b2b2b; padding:14px 16px; border-radius:4px; overflow-x:auto; border:1px solid #efe2b8; font-size:17px; line-height:1.8; font-weight:500; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1em; color: #1f2937; }
+table { border-collapse:collapse; width:100%; }
+th,td { border:1px solid #d1d5db; padding:8px; }
+a { color:#1d4ed8; }
+.toc { background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px 16px; }
+section { border-top:1px solid #e5e7eb; margin-top:28px; padding-top:20px; }
+.src { font-size: 14px; color:#4b5563; }
+</style></head><body>
+<h1>Git 教程（Runoob 合并提取版）</h1>
+<p>来源目录：<a href="https://www.runoob.com/git/git-tutorial.html">https://www.runoob.com/git/git-tutorial.html</a></p>
+<div class="toc"><strong>目录</strong><ol><li><a href="#sec-1">Git 教程</a></li><li><a href="#sec-2">Git 安装配置</a></li><li><a href="#sec-3">Git 工作流程</a></li><li><a href="#sec-4">Git 创建仓库</a></li><li><a href="#sec-5">Git 基本操作</a></li><li><a href="#sec-6">Git 分支管理</a></li><li><a href="#sec-7">Git 查看提交历史</a></li><li><a href="#sec-8">Git 标签</a></li><li><a href="#sec-9">Git Flow</a></li><li><a href="#sec-10">Git 进阶操作</a></li><li><a href="#sec-11">Git 远程仓库(Github)</a></li><li><a href="#sec-12">Git 服务器搭建</a></li><li><a href="#sec-13">Sourcetree 使用教程</a></li><li><a href="#sec-14">Git 测验</a></li><li><a href="#sec-15">GitHub Actions</a></li></ol></div>
+<section id="sec-1"><h2>Git 教程</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-tutorial.html">https://www.runoob.com/git/git-tutorial.html</a></p><h1>Git 教程</h1>
+<div class="tutintro">
+<img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/f7246b600c338744a9591cd7530fd9f9d62aa0f8.png" alt="Git 教程" width="220" height="92" class="alignnone size-full wp-image-11292" />
+<p>Git 是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。</p>
+<p>Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。</p>
+<p>Git 与常用的版本控制工具 CVS, Subversion 等不同，它采用了分布式版本库的方式，不必服务器端软件支持。</p>
+</div>
+<hr>
+<h2>Git 与 SVN 区别</h2>
+<p>Git 不仅仅是个版本控制系统，它也是个内容管理系统(CMS)，工作管理系统等。</p>
+<p>如果你是一个具有使用 SVN 背景的人，你需要做一定的思想转换，来适应 Git 提供的一些概念和特征。</p>
+<p>Git 与 SVN 区别点：</p>
+<ul>
+<li><p>
+<strong>1、Git 是分布式的，SVN 不是</strong>：这是 Git 和其它非分布式的版本控制系统，例如 SVN，CVS 等，最核心的区别。</p>
+</li>
+<li><p><strong>2、Git 把内容按元数据方式存储，而 SVN 是按文件：</strong>所有的资源控制系统都是把文件的元信息隐藏在一个类似 .svn、.cvs 等的文件夹里。</p></li>
+<li><p><strong>3、Git 分支和 SVN 的分支不同：</strong>分支在 SVN 中一点都不特别，其实它就是版本库中的另外一个目录。</p></li>
+<li><p>
+<strong>4、Git 没有一个全局的版本号，而 SVN 有：</strong>目前为止这是跟 SVN 相比 Git 缺少的最大的一个特征。</p>
+</li>
+<li><p><strong>5、Git 的内容完整性要优于 SVN：</strong>Git 的内容存储使用的是 SHA-1 哈希算法。这能确保代码内容的完整性，确保在遇到磁盘故障和网络问题时降低对版本库的破坏。</p></p>
+</li>
+</ul>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/0D32F290-80B0-4EA4-9836-CA58E22569B3.jpg"></p>
+<hr>
+<h2>Git 快速入门</h2>
+<p>本站也提供了 Git 快速入门版本，你可以点击 <a href="https://www.runoob.com/manual/git-guide/" target="_blank" rel="noopener noreferrer">Git 简明指南</a> 查看。</p>
+<p>入门后建议通过本站详细学习 Git 教程。</p>
+<p>Git 完整命令手册地址：<a href="http://git-scm.com/docs" target="_blank" rel="noopener noreferrer">http://git-scm.com/docs</a></p>
+<p>PDF 版命令手册：<a href="https://www.runoob.com/manual/github-git-cheat-sheet.pdf" target="_blank" rel="noopener noreferrer">github-git-cheat-sheet.pdf</a></p>
+
+<hr>
+<h2>相关文章推荐</h2>
+<ul>
+<li>1、<a href="https://www.runoob.com/w3cnote/git-five-minutes-tutorial.html" target="_blank" rel="noopener noreferrer">Git 五分钟教程</a></li>
+<li>2、<a href="https://www.runoob.com/w3cnote/git-gui-window.html" target="_blank" rel="noopener noreferrer">Git GUI使用方法</a></li>
+<li>3、<a href="https://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener noreferrer">Github 简明教程</a></li>
+
+<li>5、<a href="https://www.runoob.com/w3cnote/internet-organization-github.html" target="_blank" rel="noopener noreferrer">互联网组织的未来：剖析GitHub员工的任性之源</a></li>
+
+
+</ul></section><section id="sec-2"><h2>Git 安装配置</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-install-setup.html">https://www.runoob.com/git/git-install-setup.html</a></p><h1>Git 安装配置</h1>
+<p>在使用 Git 前我们需要先安装 Git。</p>
+<p>Git 目前支持 Linux/Unix、Solaris、Mac和 Windows 平台上运行。</p>
+<p>Git 各平台安装包下载地址为：<a href="http://git-scm.com/downloads" target="_blank" rel="noopener noreferrer">http://git-scm.com/downloads</a>
+<p><a href="http://git-scm.com/downloads" target="_blank" rel="noopener noreferrer"><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/git-download.png"></a></p>
+<hr>
+<h2>Linux 平台上安装</h2>
+<p>各大 Linux 平台可以使用包管理器（apt-get、yum 等）进行安装。
+</p>
+
+<p>Debian/Ubuntu Git 安装最新稳定版本命令为：</p>
+<pre>
+apt-get install git
+</pre>
+<h3>Centos/RedHat</h3>
+<p>如果你使用的系统是 Centos/RedHat 安装命令为：</p>
+<pre>
+yum -y install git-core
+</pre>
+<p>Fedora  安装命令：</p>
+<pre># yum install git (Fedora 21 及之前的版本)
+# dnf install git (Fedora 22 及更高新版本)</pre>
+<p>FreeBSD  安装命令：</p>
+<pre>pkg install git</pre>
+<p>
+OpenBSD  安装命令：</p>
+<pre>pkg_add git</pre>
+<p>Alpine  安装命令：</p>
+<pre>apk add git</pre>
+<h3>源码安装</h3>
+<p>我们也可以在官网下载源码包来安装，最新源码包下载地址：<a href="https://mirrors.edge.kernel.org/pub/software/scm/git/" rel="noopener noreferrer" target="_blank">https://mirrors.edge.kernel.org/pub/software/scm/git/</a>。</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/git-source.png"></p>
+<p>也可以在 GitHub 上克隆源码包：</p><pre>git clone https://github.com/git/git</pre>
+
+<p>解压安装下载的源码包：</p>
+<pre>$ tar -zxf git-1.7.2.2.tar.gz
+$ cd git-1.7.2.2
+$ make prefix=/usr/local all
+$ sudo make prefix=/usr/local install</pre>
+<hr>
+
+<h2>Windows 平台上安装</h2>
+<p>
+在 Windows 平台上安装 Git 同样轻松，有个叫做 msysGit 的项目提供了安装包，可以到 GitHub 的页面上下载 exe 安装文件并运行：
+</p>
+<p>安装包下载地址：<a href="https://gitforwindows.org/" target="_blank" rel="noopener noreferrer">https://gitforwindows.org/</a></p><p>直接官网下载也可以：<a href="https://git-scm.com/download/win" rel="noopener noreferrer" target="_blank">https://git-scm.com/download/win</a>。</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/git-win.png"></p>
+<p>下载后，双击安装包，打开界面如下所示，点击 "next" 按钮开始安装：</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/20140127131250906" /></p>
+
+<p>
+完成安装之后，就可以使用命令行的 git 工具（已经自带了 ssh 客户端）了，另外还有一个图形界面的 Git 项目管理工具。</p><p>
+在开始菜单里找到 <strong>"Git"-&gt;"Git Bash"</strong>，会弹出 Git 命令窗口，你可以在该窗口进行 Git 操作。</p>
+<h3>使用 winget 工具</h3><p>
+如果你已经安装了 winget，可以使用以下命令来安装：</p><pre>
+winget install --id Git.Git -e --source winget</pre>
+
+<hr>
+<h2>Mac 平台上安装</h2>
+
+<p>通过 Homebrew 安装：</p>
+<pre>
+brew install git</pre><p>
+如果您想要安装 git-gui 和 gitk（git 的提交 GUI 和交互式历史记录浏览器），您可以使用 homebrew 进行安装：</p>
+<pre>brew install git-gui</pre>
+<p>
+也可以使用图形化的 Git 安装工具，下载地址为：</p>
+<p><a href="https://sourceforge.net/projects/git-osx-installer/" target="_blank" rel="noopener noreferrer">https://sourceforge.net/projects/git-osx-installer/</a>
+</p>
+<p>安装界面如下所示：</p>
+
+</p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/18333fig0107-tn.png" />
+<hr>
+<h2> Git 配置</h2>
+<p>Git 提供了一个叫做 <span class="marked">git config</span> 的命令，用来配置或读取相应的工作环境变量。</p>
+<p>这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。</p><p>
+这些变量可以存放在以下三个不同的地方：
+</p>
+<ul>
+<li>  <code>/etc/gitconfig</code> 文件：系统中对所有用户都普遍适用的配置。若使用 <code>git config</code> 时用 <code>--system</code> 选项，读写的就是这个文件。</li>
+<li>  <code>~/.gitconfig</code> 文件：用户目录下的配置文件只适用于该用户。若使用 <code>git config</code> 时用 <code>--global</code> 选项，读写的就是这个文件。</li>
+<li>  当前项目的 Git 目录中的配置文件（也就是工作目录中的 <code>.git/config</code> 文件）：这里的配置仅仅针对当前项目有效。每一个级别的配置都会覆盖上层的相同配置，所以 <code>.git/config</code> 里的配置会覆盖 <code>/etc/gitconfig</code> 中的同名变量。</li>
+</ul>
+<p>
+在 Windows 系统上，Git 会找寻用户主目录下的 .gitconfig 文件。主目录即 $HOME 变量指定的目录，一般都是 C:\Documents and Settings\$USER。</p>
+<p>此外，Git 还会尝试找寻 /etc/gitconfig 文件，只不过看当初 Git 装在什么目录，就以此作为根目录来定位。
+</p>
+<h3>用户信息</h3>
+
+<p>配置个人的用户名称和电子邮件地址，这是为了在每次提交代码时记录提交者的信息：</p>
+<pre>
+git config --global user.name "runoob"
+git config --global user.email test@runoob.com
+</pre>
+<p>
+如果用了 <strong>--global</strong> 选项，那么更改的配置文件就是位于你用户主目录下的那个，以后你所有的项目都会默认使用这里配置的用户信息。</p>
+<p>如果要在某个特定的项目中使用其他名字或者电邮，只要去掉 --global 选项重新配置即可，新的设定保存在当前项目的 .git/config 文件里。
+</p>
+<h3>文本编辑器</h3>
+<p>设置 Git 默认使用的文本编辑器,一般可能会是 Vi 或者 Vim，如果你有其他偏好，比如  VS Code 的话，可以重新设置：</p>
+<pre>
+git config --global core.editor "code --wait"
+</pre>
+<h3>差异分析工具</h3>
+<p>
+还有一个比较常用的是，在解决合并冲突时使用哪种差异分析工具。比如要改用 vimdiff 的话：
+</p>
+<pre>
+git config --global merge.tool vimdiff
+</pre>
+<p>
+Git 可以理解 kdiff3，tkdiff，meld，xxdiff，emerge，vimdiff，gvimdiff，ecmerge，和 opendiff 等合并工具的输出信息。</p>
+<p>当然，你也可以指定使用自己开发的工具，具体怎么做可以参阅第七章。
+</p>
+<h3>
+查看配置信息</h3>
+<p>
+要检查已有的配置信息，可以使用 <span class="marked">git config --list</span> 命令：
+</p>
+<pre>
+$ git config --list
+http.postbuffer=2M
+user.name=runoob
+user.email=test@runoob.com
+</pre>
+<p>
+有时候会看到重复的变量名，那就说明它们来自不同的配置文件（比如 /etc/gitconfig 和 ~/.gitconfig），不过最终 Git 实际采用的是最后一个。
+</p>
+<p>这些配置我们也可以在 <strong>~/.gitconfig</strong> 或 <strong>/etc/gitconfig</strong> 看到，如下所示：</p>
+<pre>
+vim ~/.gitconfig 
+</pre>
+<p>显示内容如下所示：</p>
+<pre>
+[http]
+    postBuffer = 2M
+[user]
+    name = runoob
+    email = test@runoob.com
+</pre>
+<p>
+也可以直接查阅某个环境变量的设定，只要把特定的名字跟在后面即可，像这样：
+</p>
+<pre>
+$ git config user.name
+runoob
+</pre>
+
+<h3>生成 SSH 密钥（可选）</h3><p>
+如果你需要通过 SSH 进行 Git 操作，可以生成 SSH 密钥并添加到你的 Git 托管服务（如 GitHub、GitLab 等）上。</p>
+
+<pre>
+ssh-keygen -t rsa -b 4096 -C "your.email@example.com"</pre>
+<p>按提示完成生成过程，然后将生成的公钥添加到相应的平台。</p>
+
+<h3>验证安装</h3><p>
+在终端或命令行中运行以下命令，确保 Git 已正确安装并配置：</p>
+<pre>
+git --version
+git config --list</pre></section><section id="sec-3"><h2>Git 工作流程</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-workflow.html">https://www.runoob.com/git/git-workflow.html</a></p><h1>Git 工作流程</h1>
+<p>本章节我们将为大家介绍 Git 的工作流程。</p>
+
+<p>下图展示了 Git 的工作流程：</p>
+<img decoding="async" class="attachment-full" src="https://www.runoob.com/wp-content/uploads/2015/02/git-workflow-runoob-1770781044589.svg" />
+
+<p>我们可以把 Git 的工作流程想象成一个<strong>写作业并交给老师</strong>的过程。结合上面的图，我们可以把这个流程分为四个主要部分：</p>
+<h3>1. 工作区 (Working Directory) —— 你的书桌</h3>
+<p>这是你<strong>实际修改文件</strong>的地方。你在这里写代码、删删改改。</p>
+<ul>
+    <li><strong>动作</strong>：你在这里编写了新功能或修复了 Bug。</li>
+</ul>
+<h3>2. 暂存区 (Staging Area) —— 你的待邮寄篮子</h3>
+<p>当你觉得作业写得差不多了，你会把它放进一个篮子里，准备打包。</p>
+<ul>
+    <li><strong>关键指令</strong>：<code>git add</code></li>
+    <li><strong>意义</strong>：告诉 Git，这些改动我确认要提交了，先帮我记着。</li>
+</ul>
+<h3>3. 本地仓库 (Local Repository) —— 你的个人保险箱</h3>
+<p>你把篮子里的东西打包好，贴上标签（提交信息），锁进自己的保险箱。</p>
+<ul>
+    <li><strong>关键指令</strong>：<code>git commit</code></li>
+    <li><strong>意义</strong>：改动正式成为了项目历史的一部分。即便你之后改乱了，也可以随时从这里找回。</li>
+</ul>
+<h3>4. 远程仓库 (Remote) —— 老师的收件箱（如 GitHub/GitLab）</h3>
+<p>最后，你把保险箱里的代码通过网络发送给远程服务器，方便其他人查看或合作。</p>
+<ul>
+    <li><strong>关键指令</strong>：<code>git push</code></li>
+    <li><strong>意义</strong>：备份代码，并与团队共享进度。</li>
+</ul>
+
+<h3>知识点说明</h3>
+<ul>
+    <li><strong>git stash (贮藏区)</strong>：作业写了一半，突然要改另一个急活，但又不想把没写完的作业提交。这时可以先用 <code>stash</code> 把代码藏进抽屉，等忙完再拿出来继续写（<code>pop</code>）。</li>
+    <li><strong>git pull (拉取)</strong>：看看老师（远程仓库）那里有没有别人交的新作业，直接同步到你的书桌上。</li>
+    <li><strong>git fetch &amp; merge</strong>：先看看远程有什么更新（<code>fetch</code>），确认没问题后再合并（<code>merge</code>）到自己的代码里。</li>
+</ul>
+
+<p><strong>简单总结：</strong><br>修改代码 → <strong><code>add</code></strong> (放进篮子) → <strong><code>commit</code></strong> (存入箱子) → <strong><code>push</code></strong> (寄给远方)。</p>
+
+
+<hr><h2> 命令说明</h2>
+
+<h3>1、克隆仓库</h3><p>
+如果你要参与一个已有的项目，首先需要将远程仓库克隆到本地：</p>
+<pre>
+git clone https://github.com/username/repo.git
+cd repo</pre>
+<h3>2、创建新分支</h3><p>
+为了避免直接在 main 或 master 分支上进行开发，通常会创建一个新的分支：</p>
+<pre>
+git checkout -b new-feature</pre>
+<h3>3、工作目录</h3><p>
+在工作目录中进行代码编辑、添加新文件或删除不需要的文件。</p>
+
+<h3>4、暂存文件</h3><p>
+将修改过的文件添加到暂存区，以便进行下一步的提交操作：</p>
+<pre>
+git add filename
+# 或者添加所有修改的文件
+git add .</pre>
+<h3>5、提交更改</h3><p>
+将暂存区的更改提交到本地仓库，并添加提交信息：</p>
+<pre>
+git commit -m "Add new feature"</pre>
+<h3>6、拉取最新更改</h3><p>
+在推送本地更改之前，最好从远程仓库拉取最新的更改，以避免冲突：</p>
+<pre>
+git pull origin main
+# 或者如果在新的分支上工作
+git pull origin new-feature</pre>
+<h3>7、推送更改</h3><p>
+将本地的提交推送到远程仓库：</p>
+<pre>
+git push origin new-feature</pre>
+<h3>8、创建 Pull Request（PR）</h3><p>
+在 GitHub 或其他托管平台上创建 Pull Request，邀请团队成员进行代码审查。PR 合并后，你的更改就会合并到主分支。</p>
+
+<h3>9、合并更改</h3><p>
+在 PR 审核通过并合并后，可以将远程仓库的主分支合并到本地分支：</p>
+<pre>
+git checkout main
+git pull origin main
+git merge new-feature</pre>
+<h3>10、删除分支</h3><p>
+如果不再需要新功能分支，可以将其删除：</p>
+<pre>
+git branch -d new-feature</pre>
+<p>或者从远程仓库删除分支：</p>
+<pre>
+git push origin --delete new-feature</pre></section><section id="sec-4"><h2>Git 创建仓库</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-create-repository.html">https://www.runoob.com/git/git-create-repository.html</a></p><h1>Git 创建仓库</h1>
+<p>本章节我们将为大家介绍如何创建一个 Git 仓库。</p>
+<p>你可以使用一个已经存在的目录作为 Git 仓库。</p>
+<hr>
+<h2>git init</h2>
+<p>Git 使用 <b>git init</b> 命令来初始化一个 Git 仓库，Git 的很多命令都需要在 Git 的仓库中运行，所以 <b>git init</b> 是使用 Git 的第一个命令。</p>
+<p>在执行完成 <b>git init</b> 命令后，Git 仓库会生成一个 .git 目录，该目录包含了资源的所有元数据，其他的项目目录保持不变。</p>
+<h3>使用方法</h3>
+<p>
+进入你想要创建仓库的目录，或者先创建一个新的目录：</p>
+<pre>
+mkdir my-project
+cd my-project</pre>
+<p>
+使用当前目录作为 Git 仓库，我们只需使它初始化。
+</p>
+<pre>
+git init
+</pre>
+<p>该命令执行完后会在当前目录生成一个 .git 目录。</p>
+<p>
+使用我们指定目录作为Git仓库。
+</p>
+<pre>
+git init newrepo
+</pre>
+<p>初始化后，会在 newrepo 目录下会出现一个名为 .git 的目录，所有 Git 需要的数据和资源都存放在这个目录中。</p>
+<p>
+如果当前目录下有几个文件想要纳入版本控制，需要先用 git add 命令告诉 Git 开始对这些文件进行跟踪，然后提交：
+</p>
+<pre>
+$ git add *.c
+$ git add README
+$ git commit -m '初始化项目版本'
+</pre>
+<p>以上命令将目录下以 .c 结尾及 README 文件提交到仓库中。</p>
+
+
+<blockquote><p>
+<strong>注：</strong> 在 Linux 系统中，commit 信息使用单引号 <span class="marked">'</span>，Windows 系统，commit 信息使用双引号 <span class="marked">"</span>。</p>
+
+<p>
+
+所以在 git bash 中 <span class="marked">git commit -m '提交说明'</span> 这样是可以的，在 Windows 命令行中就要使用双引号 <span class="marked">git commit -m "提交说明"</span>。</p></blockquote>
+
+
+<hr>
+<h2>git clone</h2>
+<p>我们使用 <b>git clone</b> 从现有 Git 仓库中拷贝项目（类似 <b>svn checkout</b>）。
+<p>
+克隆仓库的命令格式为：</p>
+<pre>git clone &lt;repo&gt;</pre>
+<p>如果我们需要克隆到指定的目录，可以使用以下命令格式：</p>
+<pre>
+git clone &lt;repo&gt; &lt;directory&gt;
+</pre>
+<p><b>参数说明：</b></p>
+<ul>
+<li><b>repo:</b>Git 仓库。</li>
+<li><b>directory:</b>本地目录。</li>
+</ul>
+<p>比如，要克隆 Ruby 语言的 Git 代码仓库 Grit，可以用下面的命令：
+</p>
+<pre>
+$ git clone git://github.com/schacon/grit.git
+</pre>
+<p>执行该命令后，会在当前目录下创建一个名为grit的目录，其中包含一个 .git 的目录，用于保存下载下来的所有版本记录。
+</p>
+如果要自己定义要新建的项目目录名称，可以在上面的命令末尾指定新的名字：</p>
+<pre>
+$ git clone git://github.com/schacon/grit.git mygrit
+</pre>
+<h2>配置</h2>
+<p>git 的设置使用 <span class="marked">git config</span> 命令。</p>
+显示当前的 git 配置信息：
+<pre>$ git config --list
+credential.helper=osxkeychain
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true</pre>
+
+
+编辑 git 配置文件:
+<pre>$ git config -e    # 针对当前仓库 </pre>
+<p>或者：</p><pre>$ git config -e --global   # 针对系统上所有仓库</pre>
+
+<p>设置提交代码时的用户信息：</p>
+<pre>$ git config --global user.name "runoob"
+$ git config --global user.email test@runoob.com</pre>
+
+<p>如果去掉 <strong>--global</strong> 参数只对当前仓库有效。</p><hr></section><section id="sec-5"><h2>Git 基本操作</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-basic-operations.html">https://www.runoob.com/git/git-basic-operations.html</a></p><h1>Git 基本操作</h1>
+<p>
+Git 的工作就是创建和保存你项目的快照及与之后的快照进行对比。</p><p>本章将对有关创建与提交你的项目快照的命令作介绍。</p>
+<p>Git 常用的是以下 6 个命令：<strong>git clone</strong>、<strong>git push</strong>、<strong>git add</strong> 、<strong>git commit</strong>、<strong>git checkout</strong>、<strong>git pull</strong>，后面我们会详细介绍。</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/02/git-command.jpg"></p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>workspace：工作区</li>
+<li>staging area：暂存区/缓存区</li>
+<li>local repository：版本库或本地仓库</li>
+<li>remote repository：远程仓库</li>
+</ul>
+<p>一个简单的操作步骤：</p>
+<pre>$ git init    
+$ git add .    
+$ git commit  </pre>
+<ul><li>
+git init - 初始化仓库。
+</li><li>
+git add .  -  添加文件到暂存区。
+</li><li>
+git commit  -  将暂存区内容添加到仓库中。
+</li></ul>
+
+
+<h3>创建仓库命令</h3>
+<p>下表列出了 git 创建仓库的命令：</p>
+<table class="reference">
+<tr><th>命令</th>
+<th>说明</th>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-init.html" rel="noopener noreferrer" target="_blank">git init</a></code></td>
+<td>初始化仓库</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-clone.html" rel="noopener noreferrer" target="_blank">git clone </a></code></td>
+<td>拷贝一份远程仓库，也就是下载一个项目。</td>
+</tr>
+</table>
+
+
+<hr>
+<h2>提交与修改</h2>
+<p>Git 的工作就是创建和保存你的项目的快照及与之后的快照进行对比。</p>
+<p>下表列出了有关创建与提交你的项目的快照的命令：</p>
+
+<table class="reference">
+<tr><th>命令</th>
+<th>说明</th>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-add.html" rel="noopener noreferrer" target="_blank">git add</a></code></td>
+<td>添加文件到暂存区</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-status.html" rel="noopener noreferrer" target="_blank">git status </a></code></td>
+<td>查看仓库当前的状态，显示有变更的文件。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-diff.html" rel="noopener noreferrer" target="_blank">git diff </a></code></td>
+<td>比较文件的不同，即暂存区和工作区的差异。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-difftool.html" rel="noopener noreferrer" target="_blank">git difftool </a></code></td>
+<td>使用外部差异工具查看和比较文件的更改。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-range-diff.html" rel="noopener noreferrer" target="_blank">git range-diff </a></code></td>
+<td>比较两个提交范围之间的差异。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-commit.html" rel="noopener noreferrer" target="_blank">git commit </a></code></td>
+<td>提交暂存区到本地仓库。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-reset.html" rel="noopener noreferrer" target="_blank">git reset </a></code></td>
+<td>回退版本。</td>
+</tr>
+
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-rm.html" rel="noopener noreferrer" target="_blank">git rm </a></code></td>
+<td>将文件从暂存区和工作区中删除。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-mv.html" rel="noopener noreferrer" target="_blank">git mv </a></code></td>
+<td>移动或重命名工作区文件。</td>
+</tr>
+
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-notes.html" rel="noopener noreferrer" target="_blank">git notes </a></code></td>
+<td>添加注释。</td>
+</tr>
+
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-checkout.html" rel="noopener noreferrer" target="_blank">git checkout </a></code></td>
+<td>分支切换。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-switch.html" rel="noopener noreferrer" target="_blank">git switch </a>（Git 2.23 版本引入）</code></td>
+<td>更清晰地切换分支。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-restore.html" rel="noopener noreferrer" target="_blank">git restore </a>（Git 2.23 版本引入）</code></td>
+<td>恢复或撤销文件的更改。</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-show.html" rel="noopener noreferrer" target="_blank">git show </a></code></td>
+<td>显示 Git 对象的详细信息。</td>
+</tr>
+</table>
+
+<h3>提交日志</h3>
+<table class="reference">
+    <tr><th>命令</th>
+    <th>说明</th>
+    </tr>
+    <tr>
+    <td><code><a href="https://www.runoob.com/git/git-commit-history.html#git-log" rel="noopener noreferrer" target="_blank">git log</a></code></td>
+    <td>查看历史提交记录</td>
+    </tr>
+
+
+    <tr>
+        <td><code><a href="https://www.runoob.com/git/git-commit-history.html#git-blame" rel="noopener noreferrer" target="_blank">git blame &lt;file&gt;</a>
+        </code></td>
+        <td>以列表形式查看指定文件的历史修改记录</td>
+        </tr>
+  <tr>
+    <td><code><a href="https://www.runoob.com/git/git-shortlog.html" rel="noopener noreferrer" target="_blank">git shortlog </a></code></td>
+    <td>生成简洁的提交日志摘要</td>
+    </tr>
+
+<tr>
+    <td><code><a href="https://www.runoob.com/git/git-describe.html" rel="noopener noreferrer" target="_blank">git describe </a></code></td>
+    <td>生成一个可读的字符串，该字符串基于 Git 的标签系统来描述当前的提交</td>
+    </tr>
+    </table>
+
+<h3>远程操作</h3>
+<table class="reference">
+<tr><th>命令</th>
+<th>说明</th>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-remote.html" rel="noopener noreferrer" target="_blank">git remote</a></code></td>
+<td>远程仓库操作</td>
+</tr>
+<tr>
+<td><code><a href="https://www.runoob.com/git/git-fetch.html" rel="noopener noreferrer" target="_blank">git fetch</a>
+</code></td>
+<td>从远程获取代码库</td>
+</tr>
+<tr>
+    <td><code><a href="https://www.runoob.com/git/git-pull.html" rel="noopener noreferrer" target="_blank">git pull</a>
+    </code></td>
+    <td>下载远程代码并合并</td>
+    </tr>
+    <tr>
+        <td><code><a href="https://www.runoob.com/git/git-push.html" rel="noopener noreferrer" target="_blank">git push</a>
+        </code></td>
+        <td>上传远程代码并合并</td>
+        </tr>
+
+
+  <tr>
+        <td><code><a href="https://www.runoob.com/git/git-submodule.html" rel="noopener noreferrer" target="_blank">git submodule </a>
+        </code></td>
+        <td>管理包含其他 Git 仓库的项目</td>
+        </tr>
+</table><hr>
+<h2>Git 文件状态</h2>
+<p>Git 的文件状态分为三种：工作目录（Working Directory）、暂存区（Staging Area）、本地仓库（Local Repository）。了解这些概念及其交互方式是掌握 Git 的关键。</p>
+<h3>工作目录（Working Directory）</h3>
+<p>工作目录是你在本地计算机上看到的项目文件。它是你实际操作文件的地方，包括查看、编辑、删除和创建文件。所有对文件的更改首先发生在工作目录中。</p>
+
+<p>在工作目录中的文件可能有以下几种状态：</p><ul>
+<li><strong>未跟踪（Untracked）</strong>：新创建的文件，未被 Git 记录。</li>
+<li><strong>已修改（Modified）</strong>：已被 Git 跟踪的文件发生了更改，但这些更改还没有被提交到 Git 记录中。</li>
+</ul>
+
+<h3>暂存区（Staging Area）</h3>
+<p>暂存区，也称为索引（Index），是一个临时存储区域，用于保存即将提交到本地仓库的更改。你可以选择性地将工作目录中的更改添加到暂存区中，这样你可以一次提交多个文件的更改，而不必提交所有文件的更改。</p>
+<ul>
+<li>使用 <code>git add &lt;filename&gt;</code> 命令将文件从工作目录添加到暂存区。</li>
+<li>使用 <code>git add .</code> 命令将当前目录下的所有更改添加到暂存区。</li>
+</ul>
+
+<pre>git add &lt;filename&gt;  # 添加指定文件到暂存区
+git add .           # 添加所有更改到暂存区</pre>
+<h3>本地仓库（Local Repository）</h3>
+<p>本地仓库是一个隐藏在 <code>.git</code> 目录中的数据库，用于存储项目的所有提交历史记录。每次你提交更改时，Git 会将暂存区中的内容保存到本地仓库中。</p>
+
+<p>使用 <code>git commit -m "commit message"</code> 命令将暂存区中的更改提交到本地仓库。</p>
+
+<pre>git commit -m "commit message"  # 提交暂存区的更改到本地仓库</pre>
+<h3>文件状态的转换流程</h3>
+
+<p><strong>未跟踪（Untracked）</strong>：
+新创建的文件最初是未跟踪的。它们存在于工作目录中，但没有被 Git 跟踪。</p>
+<pre>touch newfile.txt  # 创建一个新文件
+git status         # 查看状态，显示 newfile.txt 未跟踪</pre>
+
+<p><strong>已跟踪（Tracked）</strong>：
+通过 <code>git add</code> 命令将未跟踪的文件添加到暂存区后，文件变为已跟踪状态。</p>
+<pre>git add newfile.txt  # 添加文件到暂存区
+git status           # 查看状态，显示 newfile.txt 在暂存区</pre>
+
+<p><strong>已修改（Modified）</strong>：
+对已跟踪的文件进行更改后，这些更改会显示为已修改状态，但这些更改还未添加到暂存区。</p>
+<pre>echo "Hello, World!" &gt; newfile.txt  # 修改文件
+git status                          # 查看状态，显示 newfile.txt 已修改</pre>
+
+<p><strong>已暂存（Staged）</strong>：
+使用 <code>git add</code> 命令将修改过的文件添加到暂存区后，文件进入已暂存状态，等待提交。</p>
+<pre>git add newfile.txt  # 添加文件到暂存区
+git status           # 查看状态，显示 newfile.txt 已暂存</pre>
+
+<p><strong>已提交（Committed）</strong>：
+使用 <code>git commit</code> 命令将暂存区的更改提交到本地仓库后，这些更改被记录下来，文件状态返回为已跟踪状态。</p>
+<pre>git commit -m "Added newfile.txt"  # 提交更改
+git status                         # 查看状态，工作目录干净</pre></section><section id="sec-6"><h2>Git 分支管理</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-branch.html">https://www.runoob.com/git/git-branch.html</a></p><h1>Git 分支管理</h1><p>Git 分支管理是 Git 强大功能之一，能够让多个开发人员并行工作，开发新功能、修复 bug 或进行实验，而不会影响主代码库。</p>
+<p>
+几乎每一种版本控制系统都以某种形式支持分支，一个分支代表一条独立的开发线。</p><p>使用分支意味着你可以从开发主线上分离开来，然后在不影响主线的同时继续工作。</p>
+<p><img decoding="async" src="https://static.jyshare.com/images/svg/git-brance.svg"></p>
+<p>Git 分支实际上是指向更改快照的指针。</p>
+<p>有人把 Git 的分支模型称为<strong>必杀技特性</strong>，而正是因为它，将 <strong>Git</strong> 从版本控制系统家族里区分出来。</p>
+<h3>创建分支</h3>
+<p>
+创建新分支并切换到该分支：</p>
+
+<pre>git checkout -b &lt;branchname&gt;</pre>
+<p>例如：</p>
+<pre>git checkout -b feature-xyz</pre>
+<p>
+切换分支命令:</p>
+<pre>git checkout (branchname)</pre>
+<p>例如：</p><pre>
+git checkout main</pre>
+<p>当你切换分支的时候，Git 会用该分支的最后提交的快照替换你的工作目录的内容， 所以多个分支不需要多个目录。</p>
+
+<h3>查看分支</h3>
+<p>查看所有分支：</p><pre>
+git branch</pre>
+<p>查看远程分支：</p>
+<pre>
+git branch -r</pre><p>
+查看所有本地和远程分支：</p>
+<pre>
+git branch -a</pre>
+
+
+<h3>合并分支</h3>
+<p>将其他分支合并到当前分支：</p>
+<pre>
+git merge &lt;branchname&gt;</pre><p>
+例如，切换到 main 分支并合并 feature-xyz 分支：</p>
+<pre>
+git checkout main
+git merge feature-xyz</pre>
+<h3>解决合并冲突</h3><p>
+当合并过程中出现冲突时，Git 会标记冲突文件，你需要手动解决冲突。</p>
+<p>
+打开冲突文件，按照标记解决冲突。</p>
+<p>
+标记冲突解决完成：</p>
+<pre>
+git add &lt;conflict-file&gt;</pre><p>
+提交合并结果：</p>
+<pre>
+git commit</pre>
+<h3>
+删除分支</h3><p>
+删除本地分支：</p>
+<pre>
+git branch -d &lt;branchname&gt;</pre><p>
+强制删除未合并的分支：</p>
+<pre>
+git branch -D &lt;branchname&gt;</pre>
+<p>删除远程分支：</p>
+<pre>
+git push origin --delete &lt;branchname&gt;</pre>
+
+<hr>
+<h2>实例</h2>
+<p>开始前我们先创建一个测试目录：</p>
+<pre>$ mkdir gitdemo
+$ cd gitdemo/
+$ git init
+Initialized empty Git repository...
+$ touch README
+$ git add README
+$ git commit -m '第一次版本提交'
+[master (root-commit) 3b58100] 第一次版本提交
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 README</pre>
+
+<hr>
+<h2>Git 分支管理</h2>
+<h3>列出分支</h3>
+<p>列出分支基本命令：</p>
+<pre>git branch</pre>
+<p>没有参数时，<strong>git branch</strong> 会列出你在本地的分支。</p>
+<pre>
+$ git branch
+* master
+</pre>
+<p>此例的意思就是，我们有一个叫做 <strong>master</strong> 的分支，并且该分支是当前分支。 </p>
+<p>当你执行 <strong>git init</strong> 的时候，默认情况下 Git 就会为你创建 <strong>master</strong> 分支。</p>
+<p>如果我们要手动创建一个分支。执行 <span class="marked">git branch (branchname)</span> 即可。
+<pre>
+$ git branch testing
+$ git branch
+* master
+  testing
+</pre>
+<p>
+现在我们可以看到，有了一个新分支 <strong>testing</strong>。</p>
+<p>当你以此方式在上次提交更新之后创建了新分支，如果后来又有更新提交， 然后又切换到了 <strong>testing</strong> 分支，Git 将还原你的工作目录到你创建分支时候的样子。
+</p>
+<p>接下来我们将演示如何切换分支，我们用 git checkout (branch) 切换到我们要修改的分支。</p>
+<pre>
+$ ls
+README
+$ echo 'runoob.com' &gt; test.txt
+$ git add .
+$ git commit -m 'add test.txt'
+[master 3e92c19] add test.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 test.txt
+$ ls
+README&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test.txt
+$ git checkout testing
+Switched to branch 'testing'
+$ ls
+README
+</pre>
+<p>当我们切换到 <strong>testing</strong> 分支的时候，我们添加的新文件 test.txt 被移除了。切换回 <strong>master</strong> 分支的时候，它们又重新出现了。</p>
+<pre>
+$ git checkout master
+Switched to branch 'master'
+$ ls
+README&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test.txt
+</pre>
+<p>我们也可以使用 git checkout -b (branchname)  命令来创建新分支并立即切换到该分支下，从而在该分支中操作。</p>
+<pre>
+$ git checkout -b newtest
+Switched to a new branch 'newtest'
+$ git rm test.txt 
+rm 'test.txt'
+$ ls
+README
+$ touch runoob.php
+$ git add .
+$ git commit -am 'removed test.txt、add runoob.php'
+[newtest c1501a2] removed test.txt、add runoob.php
+ 2 files changed, 1 deletion(-)
+ create mode 100644 runoob.php
+ delete mode 100644 test.txt
+$ ls
+README&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;runoob.php
+$ git checkout master
+Switched to branch 'master'
+$ ls
+README&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test.txt
+
+</pre>
+<p>如你所见，我们创建了一个分支，在该分支上移除了一些文件 test.txt，并添加了 runoob.php 文件，然后切换回我们的主分支，删除的 test.txt 文件又回来了，且新增加的 runoob.php 不存在主分支中。 </p><p>使用分支将工作切分开来，从而让我们能够在不同开发环境中做事，并来回切换。</p>
+<h3>删除分支</h3>
+<p>删除分支命令：</p>
+<pre>git branch -d (branchname)</pre>
+<p>例如我们要删除 testing 分支：</p>
+<pre>
+$ git branch
+* master
+  testing
+$ git branch -d testing
+Deleted branch testing (was 85fc7e7).
+$ git branch
+* master
+</pre>
+
+<h3>分支合并</h3>
+
+<p>一旦某分支有了独立内容，你终究会希望将它合并回到你的主分支。 你可以使用以下命令将任何分支合并到当前分支中去：</p>
+<pre>
+git merge</pre>
+<pre>
+$ git branch
+* master
+  newtest
+$ ls
+README&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test.txt
+$ git merge newtest
+Updating 3e92c19..c1501a2
+Fast-forward
+ runoob.php | 0
+ test.txt   | 1 -
+ 2 files changed, 1 deletion(-)
+ create mode 100644 runoob.php
+ delete mode 100644 test.txt
+$ ls
+README&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;runoob.php
+
+</pre>
+<p>以上实例中我们将 newtest 分支合并到主分支去，test.txt 文件被删除。</p>
+
+<p>合并完后就可以删除分支:</p>
+<pre>$ git branch -d newtest
+Deleted branch newtest (was c1501a2).</pre>
+<p>删除后， 就只剩下 master 分支了：</p>
+<pre>$ git branch
+* master</pre>
+
+<h3>合并冲突</h3>
+<p>合并并不仅仅是简单的文件添加、移除的操作，Git 也会合并修改。</p>
+<pre>
+$ git branch
+* master
+$ cat runoob.php
+</pre>
+<p><strong>注意：</strong>如果没有 runoob.php，需要先创建这个文件，命令可以是 <span class="marked">touch runoob.php</span>。</p>
+<p>首先，我们创建一个叫做 change_site 的分支，切换过去，我们将 runoob.php 内容改为:</p>
+<pre>&lt;?php
+echo 'runoob';
+?&gt;</pre>
+<p>创建 change_site 分支：</p>
+<pre>
+$ git checkout -b change_site
+Switched to a new branch 'change_site'
+$ vim runoob.php
+$ head -3 runoob.php
+&lt;?php
+echo 'runoob';
+?&gt;
+$ git commit -am 'changed the runoob.php'
+[change_site 7774248] changed the runoob.php
+ 1 file changed, 3 insertions(+)
+ </pre><p>
+vim 命令操作可以参阅：<a href="https://www.runoob.com/linux/linux-vim.html" target="_blank">Linux vi/vim</a>。</p>
+ <p>将修改的内容提交到  change_site 分支中。 现在，假如切换回  master  分支我们可以看内容恢复到我们修改前的(空文件，没有代码)，我们再次修改 runoob.php  文件。
+ </p>
+<pre>
+$ git checkout master
+Switched to branch 'master'
+$ cat runoob.php
+$ vim runoob.php    # 修改内容如下
+$ cat runoob.php
+&lt;?php
+echo 1;
+?&gt;
+$ git diff
+diff --git a/runoob.php b/runoob.php
+index e69de29..ac60739 100644
+--- a/runoob.php
++++ b/runoob.php
+@@ -0,0 +1,3 @@
++&lt;?php
++echo 1;
++?&gt;
+$ git commit -am '修改代码'
+[master c68142b] 修改代码
+ 1 file changed, 3 insertions(+)
+</pre>
+<p>现在这些改变已经记录到我的 "master" 分支了。接下来我们将 "change_site" 分支合并过来。</p>
+<pre>
+$ git merge change_site
+Auto-merging runoob.php
+CONFLICT (content): Merge conflict in runoob.php
+Automatic merge failed; fix conflicts and then commit the result.
+
+$ cat runoob.php     # 打开文件，看到冲突内容
+&lt;?php
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+echo 1;
+=======
+echo 'runoob';
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; change_site
+?&gt;
+</pre>
+<p>我们将前一个分支合并到  master  分支，一个合并冲突就出现了，接下来我们需要手动去修改它。</p>
+<pre>
+$ vim runoob.php 
+$ cat runoob.php
+&lt;?php
+echo 1;
+echo 'runoob';
+?&gt;
+$ git diff
+diff --cc runoob.php
+index ac60739,b63d7d7..0000000
+--- a/runoob.php
++++ b/runoob.php
+@@@ -1,3 -1,3 +1,4 @@@
+  &lt;?php
+ +echo 1;
++ echo 'runoob';
+  ?&gt;
+</pre>
+<p>在 Git 中，我们可以用 git add 要告诉 Git 文件冲突已经解决</p>
+<pre>
+$ git status -s
+UU runoob.php
+$ git add runoob.php
+$ git status -s
+M  runoob.php
+$ git commit
+[master 88afe0e] Merge branch 'change_site'
+</pre>
+<p>现在我们成功解决了合并中的冲突，并提交了结果。</p><hr>
+<h2>命令手册</h2>
+<table class="reference">
+    <thead>
+        <tr>
+            <th><strong>命令</strong></th>
+            <th><strong>说明</strong></th>
+            <th><strong>用法示例</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>git branch</code></td>
+            <td>列出、创建或删除分支。它不切换分支，只是用于管理分支的存在。</td>
+            <td><code>git branch</code>：列出所有分支<br><code>git branch new-branch</code>：创建新分支<br><code>git branch -d old-branch</code>：删除分支</td>
+        </tr>
+        <tr>
+            <td><code>git checkout</code></td>
+            <td>切换到指定的分支或恢复工作目录中的文件。也可以用来检出特定的提交。</td>
+            <td><code>git checkout branch-name</code>：切换分支<br><code>git checkout file.txt</code>：恢复文件到工作区<br><code>git checkout &lt;commit-hash&gt;</code>：检出特定提交</td>
+        </tr>
+        <tr>
+            <td><code>git switch</code></td>
+            <td>专门用于切换分支，相比 <code>git checkout</code> 更加简洁和直观，主要用于分支操作。</td>
+            <td><code>git switch branch-name</code>：切换到指定分支<br><code>git switch -c new-branch</code>：创建并切换到新分支</td>
+        </tr>
+        <tr>
+            <td><code>git merge</code></td>
+            <td>合并指定分支的更改到当前分支。</td>
+            <td><code>git merge branch-name</code>：将指定分支的更改合并到当前分支</td>
+        </tr>
+        <tr>
+            <td><code>git mergetool</code></td>
+            <td>启动合并工具，以解决合并冲突。</td>
+            <td><code>git mergetool</code>：使用默认合并工具解决冲突<br><code>git mergetool --tool=&lt;tool-name&gt;</code>：指定合并工具</td>
+        </tr>
+        <tr>
+            <td><code>git log</code></td>
+            <td>显示提交历史记录。</td>
+            <td><code>git log</code>：显示提交历史<br><code>git log --oneline</code>：以简洁模式显示提交历史</td>
+        </tr>
+        <tr>
+            <td><code>git stash</code></td>
+            <td>保存当前工作目录中的未提交更改，并将其恢复到干净的工作区。</td>
+            <td><code>git stash</code>：保存当前更改<br><code>git stash pop</code>：恢复最近保存的更改<br><code>git stash list</code>：列出所有保存的更改</td>
+        </tr>
+        <tr>
+            <td><code>git tag</code></td>
+            <td>创建、列出或删除标签。标签用于标记特定的提交。</td>
+            <td><code>git tag</code>：列出所有标签<br><code>git tag v1.0</code>：创建一个新标签<br><code>git tag -d v1.0</code>：删除标签</td>
+        </tr>
+        <tr>
+            <td><code>git worktree</code></td>
+            <td>允许在一个仓库中检查多个工作区，适用于同时处理多个分支。</td>
+            <td><code>git worktree add &lt;path&gt; branch-name</code>：在指定路径添加新的工作区并切换到指定分支<br><code>git worktree remove &lt;path&gt;</code>：删除工作区</td>
+        </tr>
+    </tbody>
+</table></section><section id="sec-7"><h2>Git 查看提交历史</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-commit-history.html">https://www.runoob.com/git/git-commit-history.html</a></p><h1> Git 查看提交历史</h2><p>查看 Git 提交历史可以帮助你了解代码的变更情况和开发进度。</p><p>Git 提供了多种命令和选项来查看提交历史，从简单的日志到详细的差异对比。</p>
+<p>Git 提交历史一般常用两个命令：</p>
+<ul><li>
+<strong>git log</strong> - 查看历史提交记录。</li><li>
+<strong>git blame &lt;file&gt;</strong> - 以列表形式查看指定文件的历史修改记录。</li></ul><hr>
+<h2 id="git-log">git log</h2>
+<p>
+在使用 Git 提交了若干更新之后，又或者克隆了某个项目，想回顾下提交历史，我们可以使用 <span class="marked">git log</span> 命令查看。
+</p>
+
+<p><strong>git log</strong> 命令用于查看 Git 仓库中提交历史记录。</p><p><strong>git log</strong> 显示了从最新提交到最早提交的所有提交信息，包括提交的哈希值、作者、提交日期和提交消息等。</p>
+
+<p><strong>git log</strong> 命令的基本语法：</p>
+
+<pre>git log [选项] [分支名/提交哈希]</pre><p>常用的选项包括：</p>
+<ul><li><code>-p</code>：显示提交的补丁（具体更改内容）。</li><li><code>--oneline</code>：以简洁的一行格式显示提交信息。</li><li><code>--graph</code>：以图形化方式显示分支和合并历史。</li><li><code>--decorate</code>：显示分支和标签指向的提交。</li><li><code>--author=&lt;作者&gt;</code>：只显示特定作者的提交。</li><li><code>--since=&lt;时间&gt;</code>：只显示指定时间之后的提交。</li><li><code>--until=&lt;时间&gt;</code>：只显示指定时间之前的提交。</li><li><code>--grep=&lt;模式&gt;</code>：只显示包含指定模式的提交消息。</li><li><code>--no-merges</code>：不显示合并提交。</li><li><code>--stat</code>：显示简略统计信息，包括修改的文件和行数。</li><li><code>--abbrev-commit</code>：使用短提交哈希值。</li><li><code>--pretty=&lt;格式&gt;</code>：使用自定义的提交信息显示格式。</li></ul>
+<p>针对我们前一章节的操作，使用 <span class="marked">git log</span> 命令列出历史提交记录如下：</p>
+<pre>
+$ git log
+commit d5e9fc2c811e0ca2b2d28506ef7dc14171a207d9 (HEAD -&gt; master)
+Merge: c68142b 7774248
+Author: runoob &lt;test@runoob.com&gt;
+Date:   Fri May 3 15:55:58 2019 +0800
+
+    Merge branch 'change_site'
+
+commit c68142b562c260c3071754623b08e2657b4c6d5b
+Author: runoob &lt;test@runoob.com&gt;
+Date:   Fri May 3 15:52:12 2019 +0800
+
+    修改代码
+
+commit 777424832e714cf65d3be79b50a4717aea51ab69 (change_site)
+Author: runoob &lt;test@runoob.com&gt;
+Date:   Fri May 3 15:49:26 2019 +0800
+
+    changed the runoob.php
+
+commit c1501a244676ff55e7cccac1ecac0e18cbf6cb00
+Author: runoob &lt;test@runoob.com&gt;
+Date:   Fri May 3 15:35:32 2019 +0800
+</pre>
+<p>我们可以用 --oneline 选项来查看历史记录的简洁的版本。</p>
+<pre>
+$ git log --oneline
+$ git log --oneline
+d5e9fc2 (HEAD -&gt; master) Merge branch 'change_site'
+c68142b 修改代码
+7774248 (change_site) changed the runoob.php
+c1501a2 removed test.txt、add runoob.php
+3e92c19 add test.txt
+3b58100 第一次版本提交
+</pre>
+<p>
+这告诉我们的是，此项目的开发历史。</p>
+<p>
+
+我们还可以用 --graph 选项，查看历史中什么时候出现了分支、合并。以下为相同的命令，开启了拓扑图选项：
+</p>
+<pre>
+*   d5e9fc2 (HEAD -&gt; master) Merge branch 'change_site'
+|\  
+| * 7774248 (change_site) changed the runoob.php
+* | c68142b 修改代码
+|/  
+* c1501a2 removed test.txt、add runoob.php
+* 3e92c19 add test.txt
+* 3b58100 第一次版本提交
+</pre>
+<p>现在我们可以更清楚明了地看到何时工作分叉、又何时归并。</p>
+<p>你也可以用 <strong>--reverse</strong> 参数来逆向显示所有日志。</p>
+<pre>
+$ git log --reverse --oneline
+3b58100 第一次版本提交
+3e92c19 add test.txt
+c1501a2 removed test.txt、add runoob.php
+7774248 (change_site) changed the runoob.php
+c68142b 修改代码
+d5e9fc2 (HEAD -&gt; master) Merge branch 'change_site'
+</pre>
+<p>如果只想查找指定用户的提交日志可以使用命令：git log --author , 例如，比方说我们要找 Git 源码中 Linus 提交的部分：</p>
+<pre>
+$ git log --author=Linus --oneline -5
+81b50f3 Move 'builtin-*' into a 'builtin/' subdirectory
+3bb7256 make "index-pack" a built-in
+377d027 make "git pack-redundant" a built-in
+b532581 make "git unpack-file" a built-in
+112dd51 make "mktag" a built-in
+</pre>
+<p>
+如果你要指定日期，可以执行几个选项：--since 和 --before，但是你也可以用 --until 和 --after。 </p>
+<p>例如，如果我要看 Git 项目中三周前且在四月十八日之后的所有提交，我可以执行这个（我还用了 --no-merges 选项以隐藏合并提交）：
+</p>
+<pre>
+$ git log --oneline --before={3.weeks.ago} --after={2010-04-18} --no-merges
+5469e2d Git 1.7.1-rc2
+d43427d Documentation/remote-helpers: Fix typos and improve language
+272a36b Fixup: Second argument may be any arbitrary string
+b6c8d2d Documentation/remote-helpers: Add invocation section
+5ce4f4e Documentation/urls: Rewrite to accomodate transport::address
+00b84e9 Documentation/remote-helpers: Rewrite description
+03aa87e Documentation: Describe other situations where -z affects git diff
+77bc694 rebase-interactive: silence warning when no commits rewritten
+636db2c t3301: add tests to use --format="%N"
+</pre><h3>常用选项</h3>
+<p>限制显示的提交数:</p>
+<pre>
+git log -n &lt;number&gt;</pre>
+<p>例如，显示最近的 5 次提交：</p>
+<pre>
+git log -n 5</pre>
+<p>
+显示自指定日期之后的提交：</p>
+<pre>
+git log --since="2024-01-01"</pre><p>
+显示指定日期之前的提交：</p>
+<pre>
+git log --until="2024-07-01"</pre>
+<p>
+只显示某个作者的提交：</p>
+<pre>
+git log --author="Author Name"</pre>
+
+
+<p>更多 <strong>git log</strong> 命令可查看 <a href="http://git-scm.com/docs/git-log" target="_blank" rel="noopener noreferrer">http://git-scm.com/docs/git-log</a>
+ 或使用 <span class="marked">git log --help</span> 命令查看帮助信息。</p><hr>
+<h2 id="git-blame">git blame </h2>
+<p><strong>git blame</strong> 命令用于逐行显示指定文件的每一行代码是由谁在什么时候引入或修改的。</p><p><strong>git blame</strong> 可以追踪文件中每一行的变更历史，包括作者、提交哈希、提交日期和提交消息等信息。</p>
+<p>如果要查看指定文件的修改记录可以使用 git blame 命令，格式如下：</p>
+<pre>git blame [选项] &lt;文件路径&gt;</pre>
+<p>常用的选项包括：</p>
+<ul><li><code>-L &lt;起始行号&gt;,&lt;结束行号&gt;</code>：只显示指定行号范围内的代码注释。</li><li><code>-C</code>：对于重命名或拷贝的代码行，也进行代码行溯源。</li><li><code>-M</code>：对于移动的代码行，也进行代码行溯源。</li><li><code>-C -C</code> 或 <code>-M -M</code>：对于较多改动的代码行，进行更进一步的溯源。</li><li><code>--show-stats</code>：显示包含每个作者的行数统计信息。</li></ul>
+<p>显示文件每一行的代码注释和相关信息：</p><pre>
+git blame &lt;文件路径&gt;</pre>
+<p>只显示指定行号范围内的代码注释：</p><pre>
+git blame -L &lt;起始行号&gt;,&lt;结束行号&gt; &lt;文件路径&gt;</pre>
+<p>对于重命名或拷贝的代码行进行溯源：</p>
+<pre>
+git blame -C &lt;文件路径&gt;</pre><p>
+对于移动的代码行进行溯源：</p>
+
+<pre>
+git blame -M &lt;文件路径&gt;</pre>
+<p>显示行数统计信息：</p>
+<pre>
+git blame --show-stats &lt;文件路径&gt;</pre>
+
+<p>
+git blame 命令是以列表形式显示修改记录，如下实例：</p>
+
+<pre>$ git blame README 
+^d2097aa (tianqixin 2020-08-25 14:59:25 +0800 1) # Runoob Git 测试
+db9315b0 (runoob    2020-08-25 16:00:23 +0800 2) # 菜鸟教程 </pre>
+
+<p>更多内容可以使用 <span class="marked">git blame --help</span> 查看完整的帮助文档，了解更多选项和使用方式。</p>
+<hr><h2>恢复和回退</h2>
+<p>
+Git 提供了多种方式来恢复和回退到之前的版本，不同的命令适用于不同的场景和需求。</p><p>以下是几种常见的方法：</p>
+<ul><li><strong><code>git checkout</code></strong>：切换分支或恢复文件到指定提交。</li><li><strong><code>git reset</code></strong>：重置当前分支到指定提交（软重置、混合重置、硬重置）。</li><li><strong><code>git revert</code></strong>：创建一个新的提交以撤销指定提交，不改变提交历史。</li><li><strong><code>git reflog</code></strong>：查看历史操作记录，找回丢失的提交。</li></ul>
+<h3>1、git checkout：检查出特定版本的文件</h3><p>
+git checkout 命令用于切换分支或恢复工作目录中的文件到指定的提交。</p>
+<p>
+恢复工作目录中的文件到某个提交：</p><pre>
+git checkout &lt;commit&gt; -- &lt;filename&gt;</pre>
+<p>例如，将 file.txt 恢复到 abc123 提交时的版本：</p><pre>
+git checkout abc123 -- file.txt</pre><p>
+切换到特定提交：</p>
+<pre>
+git checkout &lt;commit&gt;</pre>
+<p>例如：</p><pre>
+git checkout abc123</pre><p>
+这种方式切换到特定的提交时，处于分离头指针（detached HEAD）状态。</p>
+<h3>
+2、git reset：重置当前分支到特定提交</h3><p>
+git reset 命令可以更改当前分支的提交历史，它有三种主要模式：--soft、--mixed 和 --hard。</p>
+<p>
+<span class="marked">--soft</span>：只重置 HEAD 到指定的提交，暂存区和工作目录保持不变。</p>
+<pre>
+git reset --soft &lt;commit&gt;</pre><p>
+<span class="marked">--mixed（默认）</span>：重置 HEAD 到指定的提交，暂存区重置，但工作目录保持不变。</p>
+<pre>
+git reset --mixed &lt;commit&gt;</pre><p>
+<span class="marked">--hard</span>：重置 HEAD 到指定的提交，暂存区和工作目录都重置。</p>
+<pre>
+git reset --hard &lt;commit&gt;</pre><p>
+例如，将当前分支重置到 abc123 提交：</p>
+<pre>
+git reset --hard abc123</pre>
+<h3>3、git revert：撤销某次提交</h3><p>
+git revert 命令创建一个新的提交，用来撤销指定的提交，它不会改变提交历史，适用于已经推送到远程仓库的提交。</p>
+<pre>
+git revert &lt;commit&gt;</pre><p>
+例如，撤销 abc123 提交：</p>
+<pre>
+git revert abc123</pre><h3>
+4、git reflog：查看历史操作记录</h3><p>
+git reflog 命令记录了所有 HEAD 的移动。即使提交被删除或重置，也可以通过 reflog 找回。</p>
+<pre>
+git reflog</pre><p>
+利用 reflog 可以找到之前的提交哈希，从而恢复到特定状态。例如：</p>
+<pre>
+git reset --hard HEAD@{3}</pre>
+<h3>实例</h3><p>
+以下是一个综合示例，演示如何使用这些命令恢复历史版本：</p>
+<p>
+查看提交历史：</p>
+<pre>
+git log --oneline</pre><p>
+假设输出如下：</p>
+<pre>
+abc1234 Commit 1
+def5678 Commit 2
+ghi9012 Commit 3</pre><p>
+切换到 Commit 2（处于分离头指针状态）：</p><pre>
+git checkout def5678</pre><p>
+重置到 Commit 2，保留更改到暂存区：</p>
+<pre>
+git reset --soft def5678</pre><p>
+重置到 Commit 2，取消暂存区更改：</p>
+<pre>
+git reset --mixed def5678</pre><p>
+重置到 Commit 2，丢弃所有更改：</p>
+<pre>
+git reset --hard def5678</pre><p>
+撤销 Commit 2：</p>
+<pre>
+git revert def5678</pre><p>
+查看 reflog 找回丢失的提交：</p><pre>
+git reflog</pre><p>
+找到之前的提交哈希并恢复：</p>
+<pre>
+git reset --hard HEAD@{3}</pre></section><section id="sec-8"><h2>Git 标签</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-tag.html">https://www.runoob.com/git/git-tag.html</a></p><h1>Git 标签</h1><p>
+<p>如果你达到一个重要的阶段，并希望永远记住提交的快照，你可以使用 <span class="marked">git tag</span> 给它打上标签。</p>
+<p>Git 标签（Tag）用于给仓库中的特定提交点加上标记，通常用于发布版本（如 v1.0, v2.0）。</p></p>
+
+<p>比如说，我们想为我们的 runoob 项目发布一个 "1.0" 版本，我们可以用 <span class="marked">git tag -a v1.0</span> 命令给最新一次提交打上（HEAD） "v1.0" 的标签。</p><strong>
+<p><span class="marked">-a</span> 选项意为</strong>"创建一个带注解的标签"，不用 <span class="marked">-a</span> 选项也可以执行的，但它不会记录这标签是啥时候打的，谁打的，也不会让你添加个标签的注解，我们推荐一直创建带注解的标签。</p>
+
+
+<p><strong>标签语法格式：</strong></p>
+<pre>git tag &lt;tagname&gt;</pre>
+<p>例如：</p>
+<pre>git tag v1.0</pre><p>
+<span class="marked">-a</span> 选项可以添加注解：</p>
+<pre>
+$ git tag -a v1.0 
+</pre>
+<p>
+当你执行 git tag -a 命令时，Git 会打开你的编辑器，让你写一句标签注解，就像你给提交写注解一样。
+</p>
+<p>
+现在，注意当我们执行 <span class="marked">git log --decorate</span> 时，我们可以看到我们的标签了：
+</p>
+<pre>
+*   d5e9fc2 (HEAD -&gt; master) Merge branch 'change_site'
+|\  
+| * 7774248 (change_site) changed the runoob.php
+* | c68142b 修改代码
+|/  
+* c1501a2 removed test.txt、add runoob.php
+* 3e92c19 add test.txt
+* 3b58100 第一次版本提交
+</pre>
+<p>如果我们忘了给某个提交打标签，又将它发布了，我们可以给它追加标签。</p>
+<p> 例如，假设我们发布了提交 85fc7e7(上面实例最后一行)，但是那时候忘了给它打标签。 我们现在也可以：</p>
+<pre>
+$ git tag -a v0.9 85fc7e7
+$ git log --oneline --decorate --graph
+*   d5e9fc2 (HEAD -&gt; master) Merge branch 'change_site'
+|\  
+| * 7774248 (change_site) changed the runoob.php
+* | c68142b 修改代码
+|/  
+* c1501a2 removed test.txt、add runoob.php
+* 3e92c19 add test.txt
+* 3b58100 (tag: v0.9) 第一次版本提交
+</pre>
+<p>如果我们要查看所有标签可以使用以下命令：</p>
+<pre>
+$ git tag
+v0.9
+v1.0
+</pre>
+<h3>推送标签到远程仓库</h3><p>
+默认情况下，git push 不会推送标签，你需要显式地推送标签。</p>
+<pre>
+git push origin &lt;tagname&gt;</pre>
+<p>推送所有标签：</p>
+<pre>
+git push origin --tags</pre>
+<h3>删除轻量标签</h3>
+<p>本地删除：</p>
+<pre>
+git tag -d &lt;tagname&gt;</pre><p>
+远程删除：</p>
+<pre>
+git push origin --delete &lt;tagname&gt;</pre>
+<h3>附注标签</h3>
+<p>
+附注标签存储了创建者的名字、电子邮件、日期，并且可以包含标签信息。附注标签更为正式，适用于需要额外元数据的场景。</p>
+<p>创建附注标签语法：</p>
+<pre>
+git tag -a &lt;tagname&gt; -m "message"</pre>
+例如：
+<pre>
+git tag -a &lt;tagname&gt; -m "runoob.com标签"
+</pre>
+<p>PGP 签名标签命令：</p>
+<pre>
+git tag -s &lt;tagname&gt; -m "runoob.com标签"
+</pre><p>
+查看标签信息：</p>
+
+<pre>git show &lt;tagname&gt;</pre>
+<h3>
+实例</h3>
+<p>以下是一个综合示例，演示如何创建、查看、推送和删除标签。</p>
+<p>
+创建轻量标签和附注标签：</p>
+<pre>
+git tag v1.0
+git tag -a v1.1 -m "runoob.com标签"</pre>
+<p>查看标签和标签信息：</p>
+<pre>
+git tag
+git show v1.1</pre>
+<p>推送标签到远程仓库：</p>
+<pre>
+git push origin v1.0
+git push origin v1.1
+git push origin --tags  # 推送所有标签</pre>
+<h3>删除标签</h3>
+<p>本地删除：</p>
+<pre>
+git tag -d v1.0</pre>
+<p>远程删除：</p>
+<pre>
+git push origin --delete v1.0</pre></section><section id="sec-9"><h2>Git Flow</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-flow.html">https://www.runoob.com/git/git-flow.html</a></p><h1>Git Flow</h1>
+<p>Git Flow 是一种基于 Git 的分支模型，旨在帮助团队更好地管理和发布软件。</p>
+<p>Git Flow 由 Vincent Driessen 在 2010 年提出，并通过一套标准的分支命名和工作流程，使开发、测试和发布过程更加有序和高效。</p>
+<p>Git Flow 主要由以下几类分支组成：<code>master</code>、<code>develop</code>、<code>feature</code>、<code>release</code>、<code>hotfix</code>。</p>
+<h2>Git Flow 安装</h2>
+<h3>Linux</h3>
+<p>
+<strong>Debian/Ubuntu:</strong></p>
+<pre>
+sudo apt-get install git-flow</pre>
+<p><strong>Fedora:</strong></p>
+<pre>
+sudo dnf install gitflow
+sudo apt-get install git-flow</pre>
+<h3>macOS</h3>
+在 macOS 上，你可以使用 Homebrew 来安装 Git Flow:</p>
+<pre>
+brew install git-flow</pre>
+<h3>源码安装</h3>
+<p>如果你的发行版的包管理器中没有 Git Flow，你也可以从源代码进行安装：</p>
+<pre>
+git clone https://github.com/nvie/gitflow.git
+cd gitflow
+sudo make install</pre>
+<p>安装完成后，你可以通过以下命令验证 Git Flow 是否成功安装：</p>
+<pre>
+git flow version</pre>
+<h3>Windows</h3>
+<p>在 Windows 上，你可以通过以下方式安装 Git Flow：</p>
+<ul>
+    <li>
+        <p><strong>使用 Git for Windows</strong>: Git for Windows 包含了 Git Flow。你可以从 <a rel="noreferrer noopener" target="_new" href="https://gitforwindows.org/">Git for Windows</a> 安装 Git，然后使用 Git Bash 来使用 Git Flow。</p>
+    </li>
+    <li>
+        <p><strong>使用 Scoop</strong>: 如果你使用 Scoop 包管理工具，可以通过以下命令安装 Git Flow：</p>
+        <pre>scoop install git-flow</pre>
+    </li>
+    <li>
+        <p><strong>使用 Chocolatey</strong>: 如果你使用 Chocolatey 包管理工具，可以通过以下命令安装 Git Flow：</p>
+        <pre>choco install gitflow</pre>
+    </li>
+</ul><hr>
+<h2>Git Flow 分支模型</h2>
+
+    <p><strong><code>master</code> 分支</strong>：</p>
+    <ul>
+        <li>永远保持稳定和可发布的状态。</li>
+        <li>每次发布一个新的版本时，都会从 <code>develop</code> 分支合并到 <code>master</code> 分支。</li>
+    </ul>
+
+    <p><strong><code>develop</code> 分支</strong>：</p>
+    <ul>
+        <li>用于集成所有的开发分支。</li>
+        <li>代表了最新的开发进度。</li>
+        <li>功能分支、发布分支和修复分支都从这里分支出去，最终合并回这里。</li>
+    </ul>
+
+    <p><strong><code>feature</code> 分支</strong>：</p>
+    <ul>
+        <li>用于开发新功能。</li>
+        <li>从 <code>develop</code> 分支创建，开发完成后合并回 <code>develop</code> 分支。</li>
+        <li>命名规范：<code>feature/feature-name</code>。</li>
+    </ul>
+
+    <p><strong><code>release</code> 分支</strong>：</p>
+    <ul>
+        <li>用于准备新版本的发布。</li>
+        <li>从 <code>develop</code> 分支创建，进行最后的测试和修复，然后合并回 <code>develop</code> 和 <code>master</code> 分支，并打上版本标签。</li>
+        <li>命名规范：<code>release/release-name</code>。</li>
+    </ul>
+
+    <p><strong><code>hotfix</code> 分支</strong>：</p>
+    <ul>
+        <li>用于修复紧急问题。</li>
+        <li>从 <code>master</code> 分支创建，修复完成后合并回 <code>master</code> 和 <code>develop</code> 分支，并打上版本标签。</li>
+        <li>命名规范：<code>hotfix/hotfix-name</code>。</li>
+    </ul>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2024/07/git-flow.png"></p>
+
+<h3>分支操作原理</h3>
+<ul>
+<li>Master 分支上的每个 Commit 应打上 Tag，Develop 分支基于 Master 创建。</li>
+<li>Feature 分支完成后合并回 Develop 分支，并通常删除该分支。</li>
+<li>Release 分支基于 Develop 创建，用于测试和修复 Bug，发布后合并回 Master 和 Develop，并打 Tag 标记版本号。</li>
+<li>Hotfix 分支基于 Master 创建，完成后合并回 Master 和 Develop，并打 Tag <span class=""><span class="">1</span></span>。</li>
+</ul>
+<h3>Git Flow 命令示例</h3>
+<ul>
+<li>开始 Feature 分支：<code class="">git flow feature start MYFEATURE</code></li>
+<li>完成 Feature 分支：<code class="">git flow feature finish MYFEATURE</code></li>
+<li>开始 Release 分支：<code class="">git flow release start RELEASE [BASE]</code></li>
+<li>完成 Release 分支：合并到 Master 和 Develop，打 Tag，删除 Release 分支。</li>
+<li>开始 Hotfix 分支：<code class="">git flow hotfix start HOTFIX [BASE]</code></li>
+<li>完成 Hotfix 分支：合并到 Master 和 Develop，打 Tag，删除 Hotfix 分支。</li>
+</ul>
+
+<h3>Git Flow 工作流程</h3>
+<h4>1. 初始化 Git Flow</h4>
+<p>首先，在项目中初始化 Git Flow。可以使用 Git Flow 插件（例如 <code>git-flow</code>）来简化操作。</p>
+<pre>git flow init
+</pre>
+<p>初始化时，你需要设置分支命名规则和默认分支。</p>
+<h4>2. 创建功能分支</h4>
+<p>当开始开发一个新功能时，从 <code>develop</code> 分支创建一个功能分支。</p>
+<pre>git flow feature start feature-name
+</pre>
+<p>完成开发后，将功能分支合并回 <code>develop</code> 分支，并删除功能分支。</p>
+<pre>git flow feature finish feature-name
+</pre>
+<h4>3. 创建发布分支</h4>
+<p>当准备发布一个新版本时，从 <code>develop</code> 分支创建一个发布分支。</p>
+<pre>git flow release start release-name
+</pre>
+<p>在发布分支上进行最后的测试和修复，准备好发布后，将发布分支合并回 <code>develop</code> 和 <code>master</code> 分支，并打上版本标签。</p>
+<pre>git flow release finish release-name
+</pre>
+<h4>4. 创建修复分支</h4>
+<p>当发现需要紧急修复的问题时，从 <code>master</code> 分支创建一个修复分支。</p>
+<pre>git flow hotfix start hotfix-name
+</pre>
+<p>修复完成后，将修复分支合并回 <code>master</code> 和 <code>develop</code> 分支，并打上版本标签。</p>
+<pre>git flow hotfix finish hotfix-name
+</pre>
+<h3>实例操作</h3>
+<p>以下是一个实际使用 Git Flow 的综合实例。</p>
+<p><strong>初始化 Git Flow</strong>：</p>
+<pre>git flow init
+</pre>
+<p><strong>创建和完成功能分支</strong>：</p>
+<pre>git flow feature start new-feature # 开发新功能
+git flow feature finish new-feature
+</pre>
+<p><strong>创建和完成发布分支</strong>：</p>
+<pre>git flow release start v1.0.0 # 测试和修复
+git flow release finish v1.0.0
+</pre>
+<p><strong>创建和完成修复分支</strong>：</p>
+<pre>git flow hotfix start hotfix-1.0.1. # 修复紧急问题
+git flow hotfix finish hotfix-1.0.1
+</pre>
+<h3>优点和缺点</h3>
+<p><strong>优点</strong></p>
+<ul>
+<li><strong>明确的分支模型</strong>：清晰的分支命名和使用规则，使得开发过程井然有序。</li>
+<li><strong>隔离开发和发布</strong>：开发和发布过程分离，减少了开发中的不确定性对发布的影响。</li>
+<li><strong>版本管理</strong>：每次发布和修复都会打上版本标签，方便回溯和管理。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li><strong>复杂性</strong>：对于小型团队或简单项目，Git Flow 的分支模型可能显得过于复杂。</li>
+<li><strong>频繁的合并</strong>：在大型团队中，频繁的分支合并可能导致合并冲突增加。</li>
+</ul>
+
+<p>Git Flow 是一种结构化的分支管理模型，通过定义明确的分支和工作流程，帮助团队更好地管理软件开发和发布过程。虽然它增加了一定的复杂性，但对于大型项目和团队协作，Git Flow 提供了强大的支持和管理能力。</p></section><section id="sec-10"><h2>Git 进阶操作</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-advance.html">https://www.runoob.com/git/git-advance.html</a></p><h1>Git 进阶操作</h1><p>在掌握了 Git 的基础操作之后，进阶操作可以帮助你更高效地管理和优化你的代码库。</p><p>以下是一些常见的进阶操作及其详细说明：</p>
+<ul>
+<li><strong>交互式暂存</strong>：逐块选择要暂存的更改，精细控制提交内容。</li>
+<li><strong>Git Stash</strong>：临时保存工作进度，方便切换任务。</li>
+<li><strong>Git Rebase</strong>：将一个分支上的更改移到另一个分支之上，保持提交历史线性。</li>
+<li><strong>Git Cherry-Pick</strong>：选择特定提交并应用到当前分支。</li>
+</ul>
+<h3>1、交互式暂存（Interactive Staging）</h3>
+<p><code>git add</code> 命令可以选择性地将文件或文件的一部分添加到暂存区，这在处理复杂更改时非常有用。</p>
+<ul>
+<li><strong>使用 <code>git add -p</code></strong>：逐块选择要暂存的更改。</li>
+</ul>
+<pre>git add -p</pre>
+<p>执行此命令后，Git 会逐块显示文件的更改，你可以选择是否暂存每个块。常用选项包括：</p>
+<ul>
+<li><code>y</code>：暂存当前块</li>
+<li><code>n</code>：跳过当前块</li>
+<li><code>s</code>：拆分当前块</li>
+<li><code>e</code>：手动编辑当前块</li>
+<li><code>q</code>：退出暂存</li>
+</ul>
+<h3>2、Git Stash：临时保存工作进度</h3>
+<p><code>git stash</code> 命令允许你临时保存当前工作目录的更改，以便你可以切换到其他分支或处理其他任务。</p>
+<p><strong>保存当前工作进度</strong>：</p>
+<pre>git stash</pre>
+<p><strong>查看存储的进度</strong>：</p>
+<pre>git stash list
+</pre>
+<p><strong>应用最近一次存储的进度</strong>：</p>
+<pre>git stash apply</pre><p>
+<strong>应用并删除最近一次存储的进度</strong>：</p>
+<pre>git stash pop</pre>
+<p><strong>删除特定存储</strong>：</p>
+<pre>git stash drop stash@{n}</pre>
+<p><strong>清空所有存储</strong>：</p>
+<pre>git stash clear</pre>
+<h3>3、Git Rebase：变基</h3>
+<p><code>git rebase</code> 命令用于将一个分支上的更改移到另一个分支之上。它可以帮助保持提交历史的线性，减少合并时的冲突。</p>
+<p><strong>变基当前分支到指定分支</strong>：</p>
+<pre>git rebase &lt;branchname&gt;</pre>
+<p>例如，将当前分支变基到 <code>main</code> 分支：</p>
+<pre>git rebase main</pre>
+<ul>
+<li><strong>交互式变基</strong>：</li>
+</ul>
+<pre>git rebase -i &lt;commit&gt;</pre>
+<p>交互式变基允许你在变基过程中编辑、删除或合并提交。常用选项包括：</p>
+<ul>
+<li><code>pick</code>：保留提交</li>
+<li><code>reword</code>：修改提交信息</li>
+<li><code>edit</code>：编辑提交</li>
+<li><code>squash</code>：将当前提交与前一个提交合并</li>
+<li><code>fixup</code>：将当前提交与前一个提交合并，不保留提交信息</li>
+<li><code>drop</code>：删除提交</li>
+</ul>
+<h3>4、Git Cherry-Pick：拣选提交</h3>
+<p><code>git cherry-pick</code> 命令允许你选择特定的提交并将其应用到当前分支。它在需要从一个分支移植特定更改到另一个分支时非常有用。</p>
+<p><strong>拣选提交</strong>：</p>
+<pre>git cherry-pick &lt;commit&gt;</pre>
+<p>例如，将 <code>abc123</code> 提交应用到当前分支：</p>
+<pre>git cherry-pick abc123</pre>
+<p><strong>处理拣选冲突</strong>：如果拣选过程中出现冲突，解决冲突后使用 <code>git cherry-pick --continue</code> 继续拣选。</p>
+<h3>示例操作</h3>
+<p>以下是一个综合示例，展示了如何使用这些进阶操作：</p>
+<p><strong>交互式暂存</strong>：</p>
+<pre>git add -p</pre><p>
+<strong>保存工作进度</strong>：</p>
+<pre>git stash</pre>
+<p><strong>查看存储的进度</strong>：</p>
+
+<pre>git stash list</pre>
+<p><strong>应用存储的进度</strong>：</p>
+<pre>git stash apply</pre><p>
+<strong>变基当前分支到 <code>main</code> 分支</strong>：</p>
+<pre>git rebase main</pre><p>
+<strong>交互式变基，编辑提交历史</strong>：</p>
+<pre>git rebase -i HEAD~3</pre>
+<p>编辑提交历史，如合并和重命名提交。</p>
+<p>
+<strong>拣选 <code>feature</code> 分支上的特定提交到 <code>main</code> 分支</strong>：</p>
+<pre>git checkout main
+git cherry-pick abc123</pre></section><section id="sec-11"><h2>Git 远程仓库(Github)</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-remote-repo.html">https://www.runoob.com/git/git-remote-repo.html</a></p><h1>Git 远程仓库(Github)</h1>
+<p>Git 并不像 SVN 那样有个中心服务器。 </p>
+<p>目前我们使用到的 Git 命令都是在本地执行，如果你想通过 Git 分享你的代码或者与其他开发人员合作。
+你就需要将数据放到一台其他开发人员能够连接的服务器上。</p>
+<p>本例使用了 Github 作为远程仓库，你可以先阅读我们的 <a target="_blank" href="https://www.runoob.com/w3cnote/git-guide.html" rel="noopener noreferrer">Github 简明教程。</a>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/Git-push-command.jpeg"></p>
+<hr><h2>添加远程库</h2>
+<p>要添加一个新的远程仓库，可以指定一个简单的名字，以便将来引用,命令格式如下：</p>
+<pre>
+git remote add [shortname] [url]
+</pre>
+<p>本例以 Github 为例作为远程仓库，如果你没有 Github 可以在官网 <a href="https://github.com/" target="_blank" rel="noopener noreferrer">https://github.com/</a>注册。</p>
+<p>
+</p>
+<p>由于你的本地 Git 仓库和 GitHub 仓库之间的传输是通过SSH加密的，所以我们需要配置验证信息：</p>
+<p>使用以下命令生成 SSH Key：</p>
+<pre>$ ssh-keygen -t rsa -C "youremail@example.com"</pre>
+
+<p>
+后面的 <strong>your_email@youremail.com</strong> 改为你在 Github 上注册的邮箱，之后会要求确认路径和输入密码，我们这使用默认的一路回车就行。</p>
+<p>成功的话会在 <strong>~/</strong> 下生成 <strong>.ssh</strong> 文件夹，进去，打开 <strong>id_rsa.pub</strong>，复制里面的 <strong>key</strong>。</p>
+<pre>
+$ ssh-keygen -t rsa -C "12345678@qq.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/tianqixin/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase):    # 直接回车
+Enter same passphrase again:                   # 直接回车
+Your identification has been saved in /Users/tianqixin/.ssh/id_rsa.
+Your public key has been saved in /Users/tianqixin/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:MDKVidPTDXIQoJwoqUmI4LBAsg5XByBlrOEzkxrwARI 12345678@qq.com
+The key's randomart image is:
++---[RSA 3072]----+
+|E*+.+=**oo       |
+|%Oo+oo=o. .      |
+|%**.o.o.         |
+|OO.  o o         |
+|+o+     S        |
+|.                |
+|                 |
+|                 |
+|                 |
++----[SHA256]-----+</pre>
+
+
+<p>回到 github 上，进入 Account => Settings（账户配置）。</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/48840BF0-992F-4CCC-A388-15CB74819D88.jpg"></p>
+<p>左边选择 <strong>SSH and GPG keys</strong>，然后点击 <strong>New SSH key</strong> 按钮,title 设置标题，可以随便填，粘贴在你电脑上生成的 key。</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/B0589847-A498-4415-8700-252BDE1B20C0.jpg"></p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/106AD534-A38A-47F3-88A3-B7BE3F2FEEF1.jpg"></p>
+<p>添加成功后界面如下所示
+<p><p>
+<img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/EC8F8872-091A-4CAB-90F2-616F34F350A9.jpg" /></p>
+<p>为了验证是否成功，输入以下命令：</p>
+<pre>
+$ ssh -T git@github.com
+The authenticity of host 'github.com (52.74.223.119)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes                   # 输入 yes
+Warning: Permanently added 'github.com,52.74.223.119' (RSA) to the list of known hosts.
+Hi tianqixin! You've successfully authenticated, but GitHub does not provide shell access. # 成功信息
+</pre>
+<p>以下命令说明我们已成功连上 Github。</p>
+<p>
+之后登录后点击" New repository " 如下图所示：</p>
+<img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/github1.jpg" />
+<p>之后在在Repository name 填入 runoob-git-test(远程仓库名)
+，其他保持默认设置，点击"Create repository"按钮，就成功地创建了一个新的Git仓库：</p>
+<img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/299CF000-7B6E-4BEC-B8C2-D9AEB053307B.jpg" />
+<p>创建成功后，显示如下信息：</p>
+<img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/1BCB4379-1A25-4C77-BB82-92B3E7185435.jpg" />
+<p>以上信息告诉我们可以从这个仓库克隆出新的仓库，也可以把本地仓库的内容推送到GitHub仓库。</p>
+
+
+<p>
+现在，我们根据 GitHub 的提示，在本地的仓库下运行命令：</p>
+<pre>
+$ mkdir runoob-git-test                     # 创建测试目录
+$ cd runoob-git-test/                       # 进入测试目录
+$ echo "# 菜鸟教程 Git 测试" &gt;&gt; README.md     # 创建 README.md 文件并写入内容
+$ ls                                        # 查看目录下的文件
+README
+$ git init                                  # 初始化
+$ git add README.md                         # 添加文件
+$ git commit -m "添加 README.md 文件"        # 提交并备注信息
+[master (root-commit) 0205aab] 添加 README.md 文件
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+
+# 提交到 Github
+$ git remote add origin git@github.com:tianqixin/runoob-git-test.git
+$ git push -u origin master
+</pre>
+<p>以下命令请根据你在Github成功创建新仓库的地方复制，而不是根据我提供的命令，因为我们的Github用户名不一样，仓库名也不一样。</p>
+<p>接下来我们返回 Github 创建的仓库，就可以看到文件已上传到 Github上：</p>
+<img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/53CA927D-F36F-4A00-AFB2-5EAED05B535E.jpg" />
+<hr><h2>查看当前的远程库</h2>
+<p>要查看当前配置有哪些远程仓库，可以用命令：</p>
+<pre>git remote</pre>
+<h3>实例</h3>
+<pre>
+$ git remote
+origin
+$ git remote -v
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (fetch)
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (push)
+</pre>
+<p>执行时加上 -v 参数，你还可以看到每个别名的实际链接地址。</p>
+
+<hr>
+<h2>提取远程仓库</h2>
+<p>
+Git 有两个命令用来提取远程仓库的更新。</p>
+<p>1、从远程仓库下载新分支与数据：</p>
+<pre>git fetch</pre>
+<p>该命令执行完后需要执行 git merge 远程分支到你所在的分支。</p>
+<p>2、从远端仓库提取数据并尝试合并到当前分支：</p>
+<pre>git merge</pre>
+<p>该命令就是在执行 <strong>git fetch</strong> 之后紧接着执行 <strong>git merge</strong> 远程分支到你所在的任意分支。</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/main-qimg-00a6b5a8ec82400657444504c4d4d1a7.png"></p>
+<p>
+假设你配置好了一个远程仓库，并且你想要提取更新的数据，你可以首先执行 <strong>git fetch [alias]</strong>
+ 告诉 Git 去获取它有你没有的数据，然后你可以执行 <strong>git merge [alias]/[branch]</strong> 以将服务器上的任何更新（假设有人这时候推送到服务器了）合并到你的当前分支。
+</p>
+<p>接下来我们在 Github 上点击" README.md" 并在线修改它:
+</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/C5A6670F-202D-4F2C-8A63-07CEA37BB67A.jpg"></p>
+<p>然后我们在本地更新修改。</p>
+<pre>
+$ git fetch origin
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From github.com:tianqixin/runoob-git-test
+   0205aab..febd8ed  master     -&gt; origin/master
+</pre>
+<p>以上信息"0205aab..febd8ed  master     -> origin/master" 说明 master 分支已被更新，我们可以使用以下命令将更新同步到本地：</p>
+<pre>
+$ git merge origin/master
+Updating 0205aab..febd8ed
+Fast-forward
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+</pre>
+<p>查看  README.md  文件内容：</p>
+<pre>
+$ cat README.md 
+# 菜鸟教程 Git 测试
+## 第一次修改内容
+</pre>
+<hr>
+<h2>推送到远程仓库</h2>
+<p>推送你的新分支与数据到某个远端仓库命令:</p>
+<pre>
+git push [alias] [branch]
+</pre>
+<p>以上命令将你的 [branch] 分支推送成为 [alias] 远程仓库上的 [branch] 分支，实例如下。</p>
+<pre>
+$ touch runoob-test.txt      # 添加文件
+$ git add runoob-test.txt 
+$ git commit -m "添加到远程"
+master 69e702d] 添加到远程
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 runoob-test.txt
+
+$ git push origin master    # 推送到 Github
+</pre>
+<p>重新回到我们的 Github 仓库，可以看到文件已经提交上来了：</p>
+
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/79A84530-7DC0-4D25-9F83-8776433A4C32.jpg"></p>
+<hr>
+<h2>删除远程仓库</h2>
+<p>删除远程仓库你可以使用命令：</p>
+<pre>git remote rm [别名]</pre>
+<h3>实例</h3>
+<pre>
+$ git remote -v
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (fetch)
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (push)
+
+# 添加仓库 origin2
+$ git remote add origin2 git@github.com:tianqixin/runoob-git-test.git
+
+$ git remote -v
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (fetch)
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (push)
+origin2&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (fetch)
+origin2&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (push)
+
+# 删除仓库 origin2
+$ git remote rm origin2
+$ git remote -v
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (fetch)
+origin&nbsp;&nbsp;&nbsp;&nbsp;git@github.com:tianqixin/runoob-git-test.git (push)
+</pre></section><section id="sec-12"><h2>Git 服务器搭建</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-server.html">https://www.runoob.com/git/git-server.html</a></p><h1>Git 服务器搭建</h2>
+<p>上一章节中我们远程仓库使用了 Github，Github 公开的项目是免费的，2019 年开始 Github 私有存储库也可以无限制使用。</p>
+<p>当然我们也可以自己搭建一台 Git 服务器作为私有仓库使用。</p>
+<h2>使用裸存储库（Bare Repository）</h2>
+<h3>1、安装Git</h3><p>
+Ubuntu 服务器上安装 Git：</p>
+<pre>
+sudo apt install git</pre>
+
+<p>如果你使用的系统是 Centos/RedHat 安装命令为：</p>
+<pre>
+yum -y install git-core
+</pre>
+<p>Fedora  安装命令：</p>
+<pre># yum install git (Fedora 21 及之前的版本)
+# dnf install git (Fedora 22 及更高新版本)</pre>
+
+<p>接下来我们
+创建一个 git 用户组和用户，用来运行git服务：
+<pre>
+$ groupadd git
+$ useradd git -g git
+</pre>
+<h3>2、创建裸存储库</h3><p>
+登录到 Git 用户，然后在其 home 目录下创建一个裸存储库。</p><pre>$ sudo su - git</pre>
+首先我们选定一个目录作为 Git 仓库，假定是 /home/gitrepo/runoob.git，在 /home/gitrepo 目录下输入命令：
+<pre>
+$ cd /home
+$ mkdir gitrepo
+$ chown git:git gitrepo/
+$ cd gitrepo
+
+$ git init --bare runoob.git</pre>
+<p>以上命令Git创建一个空仓库，服务器上的 Git 仓库通常都以 <span class="marked">.git</span> 结尾。然后，把仓库所属用户改为 git（如果是其他用户操作，比如 root）：</p>
+<pre>
+$ chown -R git:git runoob.git
+</pre>
+<h3>3、创建证书登录</h3>
+<p>将你的公钥添加到 ~/.ssh/authorized_keys 中，允许远程访问。</p>
+<p>收集所有需要登录的用户的公钥，公钥位于 id_rsa.pub 文件中，把我们的公钥导入到 /home/git/.ssh/authorized_keys 文件里，一行一个。
+<p>如果没有该文件创建它：</p>
+<pre>
+$ cd /home/git/
+$ mkdir .ssh
+$ chmod 755 .ssh
+$ touch .ssh/authorized_keys
+$ chmod 644 .ssh/authorized_keys
+# 在文件中添加你的 SSH 公钥
+</pre>
+</p>
+
+
+
+<h3>4、克隆仓库</h3>
+<pre>
+$ git clone git@192.168.45.4:/home/gitrepo/runoob.git
+Cloning into 'runoob'...
+warning: You appear to have cloned an empty repository.
+Checking connectivity... done.
+</pre>
+<p>192.168.45.4 为 Git 所在服务器 ip ，你需要将其修改为你自己的 Git 服务 ip。</p>
+<p>这样我们的 Git 服务器安装就完成。</p>
+
+<hr><h2>
+使用 GitLab</h2><p>
+GitLab 是一个功能强大的 Git 服务管理工具，适合中大型团队，提供了丰富的用户管理、CI/CD、代码审查等功能。</p>
+<p><strong>
+1、安装 GitLab</strong></p>
+<p>根据 <a href="https://about.gitlab.com/install/" rel="noopener" target="_blank">GitLab 官方文档</a> 安装 GitLab。</p><p>例如，在 Ubuntu 上：</p>
+
+<pre># sudo apt-get update
+# sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
+# curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+# sudo EXTERNAL_URL="http://yourdomain" apt-get install gitlab-ee</pre>
+<p>EXTERNAL_URL="http://yourdomain" 要设置自己的域名，或者公网 IP，比如：</p>
+<pre>
+sudo EXTERNAL_URL=101.132.XX.XX yum install -y gitlab-ee</pre>
+<p><strong>2、配置 GitLab</strong></p><p>
+安装完成后，打开浏览器访问 http://yourdomain，设置管理员账户。</p>
+<p>
+当出现类似如下回显信息，表示 GitLab 已经安装成功。</p>
+<p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-1.png"></p>
+<strong>3、创建项目</strong></p><p>
+登录 GitLab，创建一个新的项目，用户名为 <span class="marked">root</span>。</p>
+
+
+<p>获取登录密码：</p><pre>sudo cat /etc/gitlab/initial_root_password</pre>
+<p>结果如下所示：</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab2.png"></p>
+<p>首次登录使用用户名 <span class="marked">root</span>:</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-3.png"></p>
+<p>
+<strong>4、生成密钥对文件并获取公钥</strong></p>
+<p>
+安装 Git 工具（已安装跳过）：</p>
+
+ <pre>
+sudo apt-get install git</pre>
+<p>生成密钥对文件 id_rsa:</p>
+
+ <pre>
+ssh-keygen</pre>
+<p>生成密钥对的过程中，系统会提示输入密钥对存放目录（默认为当前用户目录下的 .ssh/id_rsa，例如 /home/test/.ssh/id_rsa）和密钥对密码，您可以手动输入，也可以按 Enter 保持默认。</p><p>
+生成后，显示信息如下：</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-4.png"></p>
+<p>
+查看并复制公钥文件 id_rsa.pub 中的内容:</p>
+
+ <pre>
+cat .ssh/id_rsa.pub</pre>
+<p>显示类似如下的信息：</p>
+
+ 
+<pre>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQVwWjF3KXmI549jDI0fuCgl+syJjjn55iMUDRRiCd/B+9TwUda3l9WXH5i7RU53QGRCsDVFZxixLOlmXr9E3VSqkf8xXBnHs/5E2z5PIOCN0nxfB9xeA1db/QxPwK4gkHisep+eNHRn9x+DpCYDoSoYQN0nBg+H3uqfOqL42mJ+tqSfkyqbhjBf1kjtDTlBfVCWtI0siu7owm+c65+8KNyPlj5/0AyJ4Aqk1OX2jv+YE4nTipucn7rHwWuowasPU86l+uBsLNwOSb+H7loJvQyhEINX2FS1KnpRU+ld20t07n+N3ErfX5xBAGfxXpoN9BKKSP+RT7rvTeXTVE**** test@runoob.com****</pre>
+<p><strong>
+5、创建项目</strong></p><p>
+在 GitLab 的主页中，点击 Create a project 选项：</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-5.png"></p>
+<p>
+点击 Create blank project，设置 Project name 和 Project URL，然后点击 Create project：</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-6.png"></p>
+<p>本文以 mywork 项目为例进行说明。</p>
+<p>
+<strong>6、添加 SSH key</strong></p>
+<p>
+在当前 project 页面，点击 Add SSH key：</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-7.png"></p>
+<p>将公钥文件 id_rsa.pub 中的内容粘贴到 Key 所在的文本框中：</p>
+
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-8.png"></p>
+<p>
+点击 Add key，SSH Key 添加完成后，如下图所示：</p>
+<p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-9.png"></p>
+<p>
+复制 Clone 链接，该链接在进行克隆操作时需要使用：</p>
+
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-10.png"></p>
+
+<h3>
+使用GitLab</h3>
+<p><strong>1、配置使用 Git 仓库的人员信息，包含用户名和邮箱。</strong></p>
+
+
+<pre>
+git config --global user.name "testname" 
+ 
+git config --global user.email "abc@example.com" 
+</pre>
+<p><strong>2、克隆已创建的项目到本地。</strong></p>
+
+<pre>
+git clone git@101.132.XX.XX:root/mywork.git</pre>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-11.png"></p>
+<p><strong>
+3、上传文件到 GitLab 服务器：</strong></p>
+
+<p>进入到项目目录：</p>
+
+<pre>
+cd mywork/ </pre><p>
+创建需要上传到 GitLab 中的目标文件：</p>
+
+ <pre>
+echo "test" &gt; /home/test/test.sh</pre>
+<p>将目标文件或者目录复制到项目目录下：</p>
+
+ 
+<pre>cp /home/test/test.sh ./ </pre>
+<p>将 test.sh 文件加入到索引中：</p>
+
+ 
+<pre>git add test.sh</pre>
+<p>将 test.sh 提交到本地仓库：</p>
+
+ 
+<pre>git commit -m "test.sh"</pre>
+<p>将文件同步到 GitLab 服务器上：</p>
+
+ <pre>
+git push -u origin main</pre>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-12.png"></p>
+<p>在网页中查看上传的 test.sh 文件已经同步到 GitLab 服务器中:</p>
+
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2015/03/gitlab-13.png"></p></section><section id="sec-13"><h2>Sourcetree 使用教程</h2><p class="src">原文：<a href="https://www.runoob.com/git/source-tree-intro.html">https://www.runoob.com/git/source-tree-intro.html</a></p><h1>Sourcetree 使用教程</h1>
+<div class="tutintro">
+<img decoding="async" src="https://www.runoob.com/wp-content/uploads/2022/06/Sourcetree@2x-icon-blue.png">
+<p>Git 有很多图形界面工具 ( GUI )，比如 SourceTree、Github Desktop、TortoiseGit 等。</p>
+<p>SourceTree 是一个 Git  客户端管理工具，适用于 Windows 和 Mac 系统。</p>
+<p>SourceTree 简化了开发者与代码仓库之间的 Git 操作方式，我们可以通过界面菜单很方便的处理 Git 操作，而不需要通过命令。</p>
+<p>通过 SourceTree，我们可以管理所有的 Git 库，无论是远程还是本地的。SourceTree 支持 Bitbucket、GitHub 以及 Gitlab 等远程仓库。</p>
+</div>
+<hr>
+<h2>Sourcetree 安装</h2>
+
+<p>我们可以在 Sourcetree 官网 <a href="https://www.sourcetreeapp.com/" rel="noopener" target="_blank">https://www.sourcetreeapp.com/</a> 直接点击下载按钮来下载：</p>
+<p><img decoding="async" width="50%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-1.jpeg"></p>
+
+<p>其他版本可以查看：<a href="https://www.sourcetreeapp.com/download-archives" rel="noopener" target="_blank">https://www.sourcetreeapp.com/download-archives</a></p>
+
+<p>下载完成后，解压 ZIP 文件，双击应用程序文件（Windows 为 EXE 或 Mac 为 DMG）进行安装。</p>
+<p>安装过程中，我们只需要同意 Atlassian 客户协议并点击 Continue 即可。</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree_aa.png"></p>
+<p>创建 Bitbucket 账户可跳过初始设置，加载 SSH 密钥，如果有会默认加载进来，也可以后面再设置。</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree_account.png"></p>
+<p>按照提示操作，直到您完成设置。如果您还没有准备好克隆存储库，请单击 Skip Setup。</p>
+<hr>
+<h2>连接 Github 账户</h2>
+<p>如果你还没有 Github 账户需要创建一个，可以参考 <a href="https://www.runoob.com/git/git-remote-repo.html" rel="noopener" target="_blank">Git 远程仓库(Github)</a>。</p>
+<p>接下来我们将介绍使用 Sourcetree 管理我们的 Github 账户。</p>
+<p>我们可以将多个帐户添加到 Sourcetree。 </p>
+<p>
+单击右上角的按钮并选择<strong>帐户</strong>。</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-2.jpeg"></p>
+
+<p>
+接下来我们通过添加账户按钮添加 Github 账户。</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-3.jpeg"></p>
+
+<p>Github 账户添加完成后，就可以直接克隆我们自己的账户：</p>
+<p><img decoding="async" width="50%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-4.jpeg"></p>
+<p>也可以克隆其他远程仓库：</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-5.jpeg"></p>
+<p>克隆完成后，我们就可以进行提交、拉取、合并等操作：</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-6.jpeg"></p>
+<hr>
+<h2>创建本地仓库</h2>
+<p>单击<strong>新建</strong>，然后选择<strong>创建本地仓库</strong>。</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-7.jpeg"></p>
+<p>输入您的目标路径和存储库名称，然后点击<strong>创建</strong>。</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-8.jpeg"></p>
+<p>创建完成后就会显示在本地的列表中：</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-9.jpeg"></p>
+
+<p>如果我们本地已经存在一个仓库，可以直接添加它。</p>
+<p>
+点击<strong>新建</strong>，然后 点击<strong>添加已经存在的本地仓库</strong>：</p>
+<p><img decoding="async" width="70%" src="https://www.runoob.com/wp-content/uploads/2022/06/sourcetree-10.jpeg"></p></section><section id="sec-14"><h2>Git 测验</h2><p class="src">原文：<a href="https://www.runoob.com/git/git-quiz.html">https://www.runoob.com/git/git-quiz.html</a></p><h1>Git 测验</h1>
+
+
+    <div class="runoob-quiz-container">
+        <header class="runoob-quiz-header">
+            <h1>知识挑战</h1>
+            <p>通过这些互动问题测试学习情况</p>
+        </header>
+
+        <div class="runoob-quiz-card">
+            <div class="runoob-quiz-progress-bar" style="width: 0%"></div>
+            
+            <div class="runoob-quiz-content">
+                <div id="quiz-container">
+                    
+                </div>
+                
+                <div id="result-container" class="runoob-quiz-hidden runoob-quiz-result-container">
+                    <h2>测验完成！</h2>
+                    <div id="score-display" class="runoob-quiz-score-display">0/0</div>
+                    <p id="result-message" class="runoob-quiz-result-message"></p>
+                    <button id="restart-btn" class="runoob-quiz-btn runoob-quiz-btn-primary">
+                        <i class="fa fa-repeat"></i> 重新开始
+                    </button>
+                </div>
+                
+                <div class="runoob-quiz-button-container">
+                    <button id="prev-btn" class="runoob-quiz-btn runoob-quiz-btn-secondary runoob-quiz-hidden">
+                        <i class="fa fa-arrow-left"></i> 上一题
+                    </button>
+                    <button id="next-btn" class="runoob-quiz-btn runoob-quiz-btn-primary">
+                        下一题 <i class="fa fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<hr>
+<h2>其他相关测试</h2>
+<div class="quiz-links">
+  <a href="https://www.jyshare.com/quiz/7106" class="quiz-link" target="_blank" rel="noopener noreferrer">
+    <span class="quiz-number">1.</span> Git 测验一
+  </a>
+  <a href="https://www.jyshare.com/quiz/7107" class="quiz-link" target="_blank" rel="noopener noreferrer">
+    <span class="quiz-number">2.</span> Git 测验二
+  </a>
+  <a href="https://www.jyshare.com/quiz/7108" class="quiz-link" target="_blank" rel="noopener noreferrer">
+    <span class="quiz-number">3.</span> Git 测验三
+  </a>
+</div></section><section id="sec-15"><h2>GitHub Actions</h2><p class="src">原文：<a href="https://www.runoob.com/git/github-actions.html">https://www.runoob.com/git/github-actions.html</a></p><h1>GitHub Actions</h1>
+
+<p>GitHub Actions 是 GitHub 内置的自动化平台，允许你在代码仓库中直接定义并运行自动化流程，无需借助任何外部 CI/CD 工具。</p><p>常见的用途包括：代码推送后自动运行测试、合并 PR 后自动部署到服务器、定时执行数据抓取脚本等。</p>
+<p><img decoding="async" src="https://www.runoob.com/wp-content/uploads/2026/04/7da9168a-d760-44e1-a14b-654f7f6f06d5.png"></p>
+<p>GitHub Actions 对<strong>公开仓库完全免费</strong>，私有仓库每月有 2,000 分钟的免费额度。</p>
+
+<hr>
+<h2>核心概念</h2>
+
+<p>在开始编写配置文件之前，需要先理解以下几个核心概念，它们之间的关系如下：</p>
+
+<pre>
+仓库（Repository）
+└── Workflow（工作流）          &larr; 一个 .yml 文件 = 一个 Workflow
+    ├── Event（触发事件）        &larr; 什么情况下启动这个 Workflow，如 push、PR
+    └── Job（作业）&times; N          &larr; 一个 Workflow 可以包含多个并行或串行的 Job
+        ├── Runner（运行器）     &larr; 执行 Job 的服务器，如 ubuntu-latest
+        └── Step（步骤）&times; N     &larr; Job 内按顺序执行的一系列操作
+            ├── Action          &larr; 可复用的封装好的操作，如 actions/checkout
+            └── Run             &larr; 直接执行 Shell 命令
+</pre>
+
+<table class="reference">
+    <thead>
+        <tr>
+            <th>概念</th>
+            <th>说明</th>
+            <th>类比</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Workflow（工作流）</strong></td>
+            <td>整个自动化流程，由一个 <code>.yml</code> 文件定义，存放在 <code>.github/workflows/</code> 目录下</td>
+            <td>一份完整的工作计划书</td>
+        </tr>
+        <tr>
+            <td><strong>Event（事件）</strong></td>
+            <td>触发 Workflow 运行的条件，如代码推送、创建 PR、定时任务等</td>
+            <td>计划书的启动条件</td>
+        </tr>
+        <tr>
+            <td><strong>Job（作业）</strong></td>
+            <td>Workflow 中的一个独立任务单元，每个 Job 运行在独立的虚拟机上，多个 Job 默认并行执行</td>
+            <td>计划书中的一个章节</td>
+        </tr>
+        <tr>
+            <td><strong>Step（步骤）</strong></td>
+            <td>Job 内按顺序执行的最小操作单元，可以是一条 Shell 命令，也可以是一个 Action</td>
+            <td>章节中的每一个具体步骤</td>
+        </tr>
+        <tr>
+            <td><strong>Action（动作）</strong></td>
+            <td>可复用的封装好的操作，来自 GitHub 官方、第三方或自己编写，通过 <code>uses</code> 引用</td>
+            <td>现成的工具模板</td>
+        </tr>
+        <tr>
+            <td><strong>Runner（运行器）</strong></td>
+            <td>执行 Job 的服务器，GitHub 提供 Ubuntu、Windows、macOS 三种托管环境</td>
+            <td>执行计划的工作人员</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+<h2>创建第一个 Workflow</h2>
+
+<h3>1、目录结构</h3>
+
+<p>所有 Workflow 文件必须存放在仓库根目录的 <code>.github/workflows/</code> 文件夹下，文件名以 <code>.yml</code> 或 <code>.yaml</code> 结尾，文件名可以自定义：</p>
+
+<pre>
+your-repo/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml          &larr; 持续集成流程（如运行测试）
+│       ├── deploy.yml      &larr; 部署流程
+│       └── scheduled.yml   &larr; 定时任务
+├── src/
+├── package.json
+└── README.md
+</pre>
+
+<p>一个仓库可以有多个 Workflow 文件，它们相互独立，分别由各自定义的事件触发。</p>
+
+<h3>2、最简单的 Workflow</h3>
+
+<p>下面是一个最基础的示例：每次向仓库推送代码时，打印一行"Hello, GitHub Actions！"：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># .github/workflows/hello.yml</span><br />
+<span style="color: green;"><br />
+name</span><span style="font-weight: bold; color: brown;">: </span>Hello World &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># Workflow 的名称，显示在 GitHub Actions 页面上</span><br />
+<span style="color: green;"><br />
+on</span><span style="font-weight: bold; color: brown;">: </span>push &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 触发条件：任意分支有代码推送时触发</span><br />
+<span style="color: green;"><br />
+jobs</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 定义所有 Job</span><span style="color: green;"><br />
+&nbsp; say-hello</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># Job 的 ID（自定义名称，同一 Workflow 内唯一）</span><span style="color: green;"><br />
+&nbsp; &nbsp; name</span><span style="font-weight: bold; color: brown;">: </span>打印问候语 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># Job 的显示名称（可选，不填则显示 Job ID）</span><span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 指定运行环境：使用 GitHub 提供的最新版 Ubuntu 虚拟机</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; steps</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 该 Job 下的所有步骤，按顺序执行</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>打印消息 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># Step 的名称（可选，用于在日志中标识该步骤）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>echo <span style="color: #CF00CF;">&quot;Hello, GitHub Actions！&quot;</span> &nbsp; <span style="color: blue;"># run：直接执行 Shell 命令</span><br />
+</div></div>
+
+<blockquote><p class="important">YAML 文件对缩进非常敏感，必须使用<strong>空格</strong>缩进，不能使用 Tab 键。建议使用 VS Code 并安装 YAML 插件，可以实时检测格式错误。</p></blockquote>
+
+<hr>
+<h2>触发事件（on）</h2>
+
+<p><code>on</code> 字段定义哪些事件会触发这个 Workflow。可以是单个事件，也可以是多个事件的组合。</p>
+
+<h3>1、常用触发事件</h3>
+
+<table class="reference">
+    <thead>
+        <tr>
+            <th>事件</th>
+            <th>触发时机</th>
+            <th>常见用途</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>push</code></td>
+            <td>有代码被推送到仓库时</td>
+            <td>运行测试、代码检查</td>
+        </tr>
+        <tr>
+            <td><code>pull_request</code></td>
+            <td>创建或更新 Pull Request 时</td>
+            <td>PR 合并前的自动审查、测试</td>
+        </tr>
+        <tr>
+            <td><code>schedule</code></td>
+            <td>按 Cron 表达式定时触发</td>
+            <td>定时备份、定时数据抓取</td>
+        </tr>
+        <tr>
+            <td><code>workflow_dispatch</code></td>
+            <td>在 GitHub 网页上手动触发</td>
+            <td>按需部署、手动执行脚本</td>
+        </tr>
+        <tr>
+            <td><code>release</code></td>
+            <td>发布新版本（创建 Release）时</td>
+            <td>自动打包、发布到生产环境</td>
+        </tr>
+        <tr>
+            <td><code>workflow_call</code></td>
+            <td>被其他 Workflow 调用时</td>
+            <td>复用公共流程（如公共测试流程）</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>2、指定分支或路径过滤</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; push</span>:<span style="color: #007F45;"><br />
+&nbsp; &nbsp; branches</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp; &nbsp;- main &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 只在推送到 main 分支时触发</span><br />
+&nbsp; &nbsp; &nbsp; - develop &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 或者推送到 develop 分支时触发</span><br />
+&nbsp; &nbsp; &nbsp; - 'release/**' &nbsp; &nbsp;<span style="color: blue;"># 或者推送到任何 release/ 开头的分支时触发（** 匹配任意字符）</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; paths</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp; &nbsp;- 'src/**' &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 进一步过滤：只有 src/ 目录下的文件发生变化时才触发</span><br />
+&nbsp; &nbsp; &nbsp; - 'package.json' &nbsp;<span style="color: blue;"># 或者 package.json 文件发生变化时触发</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 两者是&quot;或&quot;的关系，满足任意一个即触发</span><br />
+<span style="color: #007F45;"><br />
+&nbsp; pull_request</span>:<span style="color: #007F45;"><br />
+&nbsp; &nbsp; branches</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp; &nbsp;- main &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 只在目标分支为 main 的 PR 上触发（即要合并进 main 的 PR）</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; types</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp; &nbsp;- opened &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># PR 被创建时</span><br />
+&nbsp; &nbsp; &nbsp; - synchronize &nbsp; &nbsp; <span style="color: blue;"># PR 有新的提交推入时</span><br />
+&nbsp; &nbsp; &nbsp; - reopened &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># PR 被重新打开时</span><br />
+</div></div>
+
+<h3>3、定时触发（schedule）</h3>
+
+<p>使用标准的 Cron 表达式定义执行时间，时区为 UTC（北京时间 = UTC+8，需换算）：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; schedule</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp;<span style="color: blue;"># Cron 格式：分 时 日 月 星期</span><span style="color: green;"><br />
+&nbsp; &nbsp; - cron</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">0</span> <span style="">2</span> * * *' &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 每天 UTC 02:00（即北京时间 10:00）执行一次</span><span style="color: green;"><br />
+&nbsp; &nbsp; - cron</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">0</span> <span style="">9</span> * * <span style="">1</span>' &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 每周一 UTC 09:00（即北京时间 17:00）执行一次</span><span style="color: green;"><br />
+&nbsp; &nbsp; - cron</span><span style="font-weight: bold; color: brown;">: </span>'*/<span style="">30</span> * * * *' &nbsp; &nbsp;<span style="color: blue;"># 每 30 分钟执行一次</span><br />
+<br />
+<span style="color: blue;"># 常用 Cron 表达式速查：</span><br />
+<span style="color: blue;"># '0 0 * * *' &nbsp; &nbsp;每天午夜（UTC 00:00）</span><br />
+<span style="color: blue;"># '0 * * * *' &nbsp; &nbsp;每小时整点</span><br />
+<span style="color: blue;"># '0 0 * * 0' &nbsp; &nbsp;每周日午夜</span><br />
+<span style="color: blue;"># '0 0 1 * *' &nbsp; &nbsp;每月 1 号午夜</span><br />
+</div></div>
+
+<h3>4、手动触发（workflow_dispatch）</h3>
+
+<p><code>workflow_dispatch</code> 允许在 GitHub 网页的 Actions 标签页中手动点击按钮启动 Workflow，还可以定义输入参数：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; workflow_dispatch</span>:<span style="color: #007F45;"><br />
+&nbsp; &nbsp; inputs</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; environment</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 输入参数的名称（可在 steps 中通过 ${{ inputs.environment }} 引用）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; description</span><span style="font-weight: bold; color: brown;">: </span>'部署目标环境' &nbsp; <span style="color: blue;"># 参数的描述，显示在手动触发的表单中</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; required</span><span style="font-weight: bold; color: brown;">: </span>true &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 是否为必填项</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; default</span><span style="font-weight: bold; color: brown;">: </span>'staging' &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 默认值</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; type</span><span style="font-weight: bold; color: brown;">: </span>choice &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 参数类型：choice（下拉选择）</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; options</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- staging &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 可选值</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - production<br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; run_tests</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; description</span><span style="font-weight: bold; color: brown;">: </span>'是否运行测试'<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; required</span><span style="font-weight: bold; color: brown;">: </span>false<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; type</span><span style="font-weight: bold; color: brown;">: </span>boolean &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 参数类型：boolean（勾选框）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; default</span><span style="font-weight: bold; color: brown;">: </span>true<br />
+<span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; deploy</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>显示部署参数<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;echo &quot;目标环境：${{ inputs.environment }}&quot;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo &quot;运行测试：${{ inputs.run_tests }}&quot;</span><br />
+</div></div>
+
+<hr>
+<h2>Jobs 与 Steps 详解</h2>
+
+<h3>1、Job 的基本结构</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+jobs</span>:<span style="color: green;"><br />
+&nbsp; build</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># Job ID，同一 Workflow 中必须唯一</span><span style="color: green;"><br />
+&nbsp; &nbsp; name</span><span style="font-weight: bold; color: brown;">: </span>构建项目 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># Job 的显示名称（可选）</span><span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 运行环境（必填）</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: blue;"># 可选：为整个 Job 设置环境变量，Job 内所有 Step 都可以访问</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; env</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; NODE_ENV</span><span style="font-weight: bold; color: brown;">: </span>production<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; APP_PORT</span><span style="font-weight: bold; color: brown;">: </span><span style="">8080</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: blue;"># 可选：设置超时时间（分钟），超时后 Job 自动取消，防止卡死</span><span style="color: green;"><br />
+&nbsp; &nbsp; timeout-minutes</span><span style="font-weight: bold; color: brown;">: </span><span style="">30</span><br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp; &nbsp;<span style="color: blue;"># Step 写法一：使用 Action（用 uses 引用）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>拉取代码<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4 &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 引用官方 checkout Action（@v4 表示使用 v4 版本）</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># Step 写法二：执行 Shell 命令（用 run 指定）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>输出 Node 版本<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>node --version<br />
+<br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># Step 写法三：执行多行 Shell 命令（用 | 表示多行）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>安装依赖并构建<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;npm install<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; npm run build<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo &quot;构建完成&quot;</span><br />
+</div></div>
+
+<h3>2、运行环境（runs-on）</h3>
+
+<p>GitHub 提供以下免费的托管运行器，可以按需选择：</p>
+
+<table class="reference">
+    <thead>
+        <tr>
+            <th>标签</th>
+            <th>操作系统</th>
+            <th>说明</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>ubuntu-latest</code></td>
+            <td>Ubuntu（最新 LTS）</td>
+            <td>最常用，速度快，免费额度最多，推荐优先使用</td>
+        </tr>
+        <tr>
+            <td><code>ubuntu-22.04</code></td>
+            <td>Ubuntu 22.04</td>
+            <td>指定固定版本，避免因 latest 升级引入不兼容问题</td>
+        </tr>
+        <tr>
+            <td><code>windows-latest</code></td>
+            <td>Windows Server（最新）</td>
+            <td>用于需要 Windows 环境的测试或构建</td>
+        </tr>
+        <tr>
+            <td><code>macos-latest</code></td>
+            <td>macOS（最新）</td>
+            <td>用于 iOS/macOS 应用构建，消耗免费额度最快（约 Ubuntu 的 10 倍）</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>3、Job 之间的依赖（needs）</h3>
+
+<p>默认情况下，多个 Job 并行运行。使用 <code>needs</code> 可以设置 Job 的执行顺序，形成串行依赖关系：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+jobs</span>:<span style="color: green;"><br />
+&nbsp; test</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 第一步：运行测试</span><span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm test<br />
+<span style="color: green;"><br />
+&nbsp; build</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 第二步：构建项目</span><span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: green;"><br />
+&nbsp; &nbsp; needs</span><span style="font-weight: bold; color: brown;">: </span>test &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 必须等 test Job 成功完成后，build 才会开始</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm run build<br />
+<span style="color: green;"><br />
+&nbsp; deploy</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 第三步：部署</span><span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: green;"><br />
+&nbsp; &nbsp; needs</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>test, build<span class="br0">&#93;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 必须等 test 和 build 都成功完成后，deploy 才开始</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>echo <span style="color: #CF00CF;">&quot;开始部署...&quot;</span><br />
+<br />
+<span style="color: blue;"># 执行顺序：test → build → deploy（串行）</span><br />
+<span style="color: blue;"># 如果去掉 needs，则三个 Job 会同时并行执行</span><br />
+</div></div>
+
+<h3>4、条件执行（if）</h3>
+
+<p>通过 <code>if</code> 可以控制 Job 或 Step 是否执行，常用于区分分支、判断上一步是否成功等：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; deploy</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<br />
+&nbsp; &nbsp; <span style="color: blue;"># if 写在 Job 级别：整个 Job 只在推送到 main 分支时才运行</span><span style="color: green;"><br />
+&nbsp; &nbsp; if</span><span style="font-weight: bold; color: brown;">: </span>github.ref == 'refs/heads/main'<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>部署到生产环境<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>./deploy.sh<br />
+<br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># if 也可以写在 Step 级别，控制某个具体步骤是否执行</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>发送成功通知<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; if</span><span style="font-weight: bold; color: brown;">: </span>success<span class="br0">&#40;</span><span class="br0">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># success()：上面所有 Step 都成功时才执行</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>echo <span style="color: #CF00CF;">&quot;部署成功，发送通知&quot;</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>发送失败通知<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; if</span><span style="font-weight: bold; color: brown;">: </span>failure<span class="br0">&#40;</span><span class="br0">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># failure()：任意 Step 失败时才执行</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>echo <span style="color: #CF00CF;">&quot;部署失败，发送告警&quot;</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>总是执行的清理步骤<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; if</span><span style="font-weight: bold; color: brown;">: </span>always<span class="br0">&#40;</span><span class="br0">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># always()：无论成功还是失败，都执行（常用于清理临时文件）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>rm -rf ./tmp<br />
+</div></div>
+
+<hr>
+<h2>环境变量与 Secrets</h2>
+
+<h3>1、环境变量（env）</h3>
+
+<p>环境变量可以在 Workflow 的三个层级定义，作用范围依次缩小：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># 层级一：Workflow 级别（所有 Job 和 Step 都可以访问）</span><span style="color: #007F45;"><br />
+env</span>:<span style="color: green;"><br />
+&nbsp; APP_NAME</span><span style="font-weight: bold; color: brown;">: </span>my-app<span style="color: green;"><br />
+&nbsp; NODE_VERSION</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">18</span>'<br />
+<span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; build</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<br />
+<br />
+&nbsp; &nbsp; <span style="color: blue;"># 层级二：Job 级别（只有当前 Job 内的所有 Step 可以访问）</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; env</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; BUILD_MODE</span><span style="font-weight: bold; color: brown;">: </span>production<br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>显示环境变量<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 层级三：Step 级别（只有当前 Step 可以访问）</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; env</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; STEP_VAR</span><span style="font-weight: bold; color: brown;">: </span>hello<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;echo &quot;应用名称：$APP_NAME&quot; &nbsp; &nbsp; &nbsp; &nbsp; # 访问 Workflow 级别变量<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo &quot;构建模式：$BUILD_MODE&quot; &nbsp; &nbsp; &nbsp; &nbsp;# 访问 Job 级别变量<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo &quot;步骤变量：$STEP_VAR&quot; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 访问 Step 级别变量<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo &quot;Node 版本：$NODE_VERSION&quot;</span><br />
+</div></div>
+
+<h3>2、GitHub 内置变量（github 上下文）</h3>
+
+<p>GitHub Actions 提供了一组内置的上下文变量，可以在任意位置通过 <code>${{ }}</code> 语法引用：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span>:<span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>打印常用内置变量<span style="color: green;"><br />
+&nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp;echo &quot;仓库名称：${{ github.repository }}&quot; &nbsp; &nbsp; &nbsp; # 如：your-user/your-repo<br />
+&nbsp; &nbsp; &nbsp; echo &quot;触发事件：${{ github.event_name }}&quot; &nbsp; &nbsp; &nbsp; &nbsp;# 如：push、pull_request<br />
+&nbsp; &nbsp; &nbsp; echo &quot;当前分支：${{ github.ref_name }}&quot; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 如：main、develop<br />
+&nbsp; &nbsp; &nbsp; echo &quot;提交 SHA：${{ github.sha }}&quot; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 当前提交的完整 SHA 哈希值<br />
+&nbsp; &nbsp; &nbsp; echo &quot;提交者：${{ github.actor }}&quot; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 触发此次 Workflow 的用户名<br />
+&nbsp; &nbsp; &nbsp; echo &quot;工作目录：${{ github.workspace }}&quot; &nbsp; &nbsp; &nbsp; &nbsp; # 代码检出后所在的目录路径<br />
+&nbsp; &nbsp; &nbsp; echo &quot;运行 ID：${{ github.run_id }}&quot; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 本次 Workflow 运行的唯一 ID<br />
+&nbsp; &nbsp; &nbsp; echo &quot;运行编号：${{ github.run_number }}&quot; &nbsp; &nbsp; &nbsp; &nbsp;# 本次运行是该 Workflow 的第几次执行</span><br />
+</div></div>
+
+<h3>3、Secrets（敏感信息管理）</h3>
+
+<p>密码、API 密钥、服务器地址等敏感信息<strong>不能直接写在 yml 文件中</strong>（因为代码是公开的），必须存储在 GitHub 仓库的 Secrets 中。</p>
+
+<p>设置步骤：进入仓库页面 → <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong> → 点击 <strong>New repository secret</strong>，填写名称和值后保存。</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp;<span style="color: blue;"># 在 Step 中通过 ${{ secrets.密钥名称 }} 引用已设置的 Secret</span><br />
+&nbsp; <span style="color: blue;"># Secret 的值在日志中会自动被 *** 遮盖，不会泄露</span><span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>部署到服务器<span style="color: #007F45;"><br />
+&nbsp; &nbsp; env</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; SSH_KEY</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.SSH_PRIVATE_KEY <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 服务器 SSH 私钥</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; SERVER_IP</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.DEPLOY_SERVER_IP <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; &nbsp;<span style="color: blue;"># 服务器 IP 地址</span><span style="color: green;"><br />
+&nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp;echo &quot;$SSH_KEY&quot; &gt; ~/.ssh/id_rsa<br />
+&nbsp; &nbsp; &nbsp; chmod 600 ~/.ssh/id_rsa<br />
+&nbsp; &nbsp; &nbsp; ssh user@$SERVER_IP &quot;cd /app &amp;&amp; git pull &amp;&amp; pm2 restart all&quot;<br />
+</span><br />
+&nbsp; <span style="color: blue;"># GitHub 自动提供 GITHUB_TOKEN，用于操作本仓库（如推送代码、创建 Release）</span><br />
+&nbsp; <span style="color: blue;"># 无需手动创建，直接使用即可</span><span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>推送变更到仓库<span style="color: green;"><br />
+&nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp;git config user.name &quot;github-actions[bot]&quot;<br />
+&nbsp; &nbsp; &nbsp; git config user.email &quot;github-actions[bot]@users.noreply.github.com&quot;<br />
+&nbsp; &nbsp; &nbsp; git add .<br />
+&nbsp; &nbsp; &nbsp; git commit -m &quot;自动更新 [skip ci]&quot;<br />
+&nbsp; &nbsp; &nbsp; git push</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; env</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; GITHUB_TOKEN</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.GITHUB_TOKEN <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; &nbsp; <span style="color: blue;"># GitHub 自动提供，无需手动创建</span><br />
+</div></div>
+
+<hr>
+<h2>常用 Actions 介绍</h2>
+
+<p>GitHub 官方及社区提供了大量开箱即用的 Action，通过 <code>uses: action名称@版本</code> 引用，可以避免重复编写常见操作。</p>
+
+<h3>1、actions/checkout（拉取代码）</h3>
+
+<p>几乎所有 Workflow 的第一步都是拉取仓库代码，使用官方的 <code>actions/checkout</code>：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp;<span style="color: blue;"># 最基础的用法：拉取当前分支的最新代码到工作目录</span><span style="color: green;"><br />
+&nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<br />
+&nbsp; <span style="color: blue;"># 高级用法：通过 with 传入参数进行定制</span><span style="color: green;"><br />
+&nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; ref</span><span style="font-weight: bold; color: brown;">: </span>develop &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 拉取指定分支（默认拉取触发事件所在的分支）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; fetch-depth</span><span style="font-weight: bold; color: brown;">: </span><span style="">0</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 拉取完整的 git 历史记录（默认只拉取最新一次提交）</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 设为 0 可以获取所有历史，git log 等命令才能正常使用</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; submodules</span><span style="font-weight: bold; color: brown;">: </span>true &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 同时初始化并更新 git 子模块（submodule）</span><br />
+</div></div>
+
+<h3>2、actions/setup-node（配置 Node.js 环境）</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span>:<span style="color: green;"><br />
+&nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>配置 Node.js 环境<span style="color: green;"><br />
+&nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/setup-node@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">20</span>' &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 指定 Node.js 版本</span><br />
+<br />
+&nbsp; <span style="color: blue;"># 配置完成后，npm 和 node 命令即可直接使用</span><span style="color: green;"><br />
+&nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>node --version<span style="color: green;"><br />
+&nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm install<span style="color: green;"><br />
+&nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm test<br />
+</div></div>
+
+<h3>3、actions/setup-python（配置 Python 环境）</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span>:<span style="color: green;"><br />
+&nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>配置 Python 环境<span style="color: green;"><br />
+&nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/setup-python@v5<span style="color: #007F45;"><br />
+&nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; python-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">3.11</span>' &nbsp; <span style="color: blue;"># 指定 Python 版本</span><br />
+<span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>安装依赖<span style="color: green;"><br />
+&nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>pip install -r requirements.txt<br />
+<span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>运行测试<span style="color: green;"><br />
+&nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>pytest tests/<br />
+</div></div>
+
+<h3>4、actions/cache（缓存依赖加速构建）</h3>
+
+<p>每次 Workflow 运行时都重新下载依赖会很慢。使用 cache Action 可以将依赖缓存起来，下次运行时直接使用缓存，大幅缩短构建时间：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span>:<span style="color: green;"><br />
+&nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/setup-node@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">20</span>'<br />
+<span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>缓存 node_modules<span style="color: green;"><br />
+&nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/cache@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; path</span><span style="font-weight: bold; color: brown;">: </span>~/.npm &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 指定要缓存的目录</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; key</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> runner.os <span class="br0">&#125;</span><span class="br0">&#125;</span>-node-$<span class="br0">&#123;</span><span class="br0">&#123;</span> hashFiles<span class="br0">&#40;</span>'**/package-lock.json'<span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="br0">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># key：缓存的唯一标识符</span><br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># hashFiles('**/package-lock.json')：根据 lock 文件内容生成哈希值</span><br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># lock 文件不变则 key 不变，直接命中缓存；lock 文件有变化则重新安装依赖</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; restore-keys</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp;${{ runner.os }}-node-</span><br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># restore-keys：当 key 未命中时的降级匹配策略，使用最近一次有效缓存</span><br />
+<span style="color: green;"><br />
+&nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm ci &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># npm ci 比 npm install 更适合 CI 场景，更快更严格</span><span style="color: green;"><br />
+&nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm test<br />
+</div></div>
+
+<h3>5、actions/upload-artifact / download-artifact（Job 间传递文件）</h3>
+
+<p>不同 Job 运行在独立的虚拟机上，文件不能直接共享。通过 artifact（产物）可以将一个 Job 的输出文件传递给另一个 Job：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; build</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm install &amp;&amp; npm run build &nbsp; &nbsp; <span style="color: blue;"># 构建产物会输出到 ./dist 目录</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>上传构建产物<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/upload-artifact@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name</span><span style="font-weight: bold; color: brown;">: </span>dist-files &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 产物的名称（下载时通过此名称引用）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; path</span><span style="font-weight: bold; color: brown;">: </span>./dist &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 要上传的目录或文件路径</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; retention-days</span><span style="font-weight: bold; color: brown;">: </span><span style="">7</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 产物保留天数（最长 90 天）</span><br />
+<span style="color: #007F45;"><br />
+&nbsp; deploy</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: green;"><br />
+&nbsp; &nbsp; needs</span><span style="font-weight: bold; color: brown;">: </span>build &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 等 build Job 完成后再执行</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>下载构建产物<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/download-artifact@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name</span><span style="font-weight: bold; color: brown;">: </span>dist-files &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 与上传时的名称一致</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; path</span><span style="font-weight: bold; color: brown;">: </span>./dist &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 下载到本地的目录</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>部署文件<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>rsync -avz ./dist/ user@server:/var/www/html/<br />
+</div></div>
+
+<hr>
+<h2>矩阵构建（Matrix）</h2>
+
+<p>矩阵构建允许你用一份 Job 配置同时在多个环境下并行运行，常用于跨版本、跨操作系统的兼容性测试：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; test</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; name</span><span style="font-weight: bold; color: brown;">: </span>测试 Node $<span class="br0">&#123;</span><span class="br0">&#123;</span> matrix.node-version <span class="br0">&#125;</span><span class="br0">&#125;</span> on $<span class="br0">&#123;</span><span class="br0">&#123;</span> matrix.os <span class="br0">&#125;</span><span class="br0">&#125;</span><span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> matrix.os <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 从矩阵变量中读取运行环境</span><br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; strategy</span>:<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; matrix</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; os</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>ubuntu-latest, windows-latest, macos-latest<span class="br0">&#93;</span> &nbsp; <span style="color: blue;"># 3 个操作系统</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>'<span style="">18</span>', '<span style="">20</span>', '<span style="">22</span>'<span class="br0">&#93;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 3 个 Node 版本</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 以上组合共产生 3 × 3 = 9 个并行 Job</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; fail-fast</span><span style="font-weight: bold; color: brown;">: </span>false &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 默认 true：一个 Job 失败后取消其余所有 Job</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 设为 false：即使某个组合失败，其他组合继续运行，</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 方便看到所有环境的测试结果</span><br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>配置 Node.js $<span class="br0">&#123;</span><span class="br0">&#123;</span> matrix.node-version <span class="br0">&#125;</span><span class="br0">&#125;</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/setup-node@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> matrix.node-version <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; <span style="color: blue;"># 引用矩阵变量</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm ci<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>npm test<br />
+</div></div>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># 高级用法：通过 exclude 排除某些不需要的组合，通过 include 追加特殊配置</span><span style="color: #007F45;"><br />
+strategy</span>:<span style="color: #007F45;"><br />
+&nbsp; matrix</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; os</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>ubuntu-latest, windows-latest<span class="br0">&#93;</span><span style="color: green;"><br />
+&nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>'<span style="">18</span>', '<span style="">20</span>'<span class="br0">&#93;</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; exclude</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - os</span><span style="font-weight: bold; color: brown;">: </span>windows-latest<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">18</span>' &nbsp; &nbsp;<span style="color: blue;"># 排除 windows + Node 18 这个组合</span><br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; include</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - os</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">20</span>'<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; experimental</span><span style="font-weight: bold; color: brown;">: </span>true &nbsp; &nbsp;<span style="color: blue;"># 为特定组合追加额外的变量（可在 steps 中用 matrix.experimental 引用）</span><br />
+</div></div>
+
+<hr>
+<h2>实战示例</h2>
+
+<h3>示例一：Node.js 项目 CI（自动测试）</h3>
+
+<p>每次推送代码或创建 PR 时，自动安装依赖、运行代码检查和测试：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># .github/workflows/ci.yml</span><span style="color: green;"><br />
+name</span><span style="font-weight: bold; color: brown;">: </span>Node.js CI<br />
+<span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; push</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; branches</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>main, develop<span class="br0">&#93;</span><span style="color: #007F45;"><br />
+&nbsp; pull_request</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; branches</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>main<span class="br0">&#93;</span><br />
+<span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; test</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; name</span><span style="font-weight: bold; color: brown;">: </span>代码检查与测试<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>拉取代码<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>配置 Node.js 环境<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/setup-node@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">20</span>'<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cache</span><span style="font-weight: bold; color: brown;">: </span>'npm' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># setup-node 内置了缓存支持，比单独用 cache Action 更简洁</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>安装依赖<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>npm ci &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># npm ci 会严格按照 package-lock.json 安装，</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 比 npm install 更适合 CI 场景</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>运行代码检查（ESLint）<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>npm run lint<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>运行单元测试<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>npm test -- --coverage &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 同时生成测试覆盖率报告</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>上传覆盖率报告<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/upload-artifact@v4<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; if</span><span style="font-weight: bold; color: brown;">: </span>always<span class="br0">&#40;</span><span class="br0">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 无论测试是否通过，都上传报告（方便查看失败原因）</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name</span><span style="font-weight: bold; color: brown;">: </span>coverage-report<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; path</span><span style="font-weight: bold; color: brown;">: </span>./coverage<br />
+</div></div>
+
+<h3>示例二：Python 项目 CI</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># .github/workflows/python-ci.yml</span><span style="color: green;"><br />
+name</span><span style="font-weight: bold; color: brown;">: </span>Python CI<br />
+<span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; push</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; branches</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>main<span class="br0">&#93;</span><span style="color: #007F45;"><br />
+&nbsp; pull_request</span><span style="font-weight: bold; color: brown;">:<br />
+</span><span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; test</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>配置 Python 环境<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>actions/setup-python@v5<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; python-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">3.11</span>'<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cache</span><span style="font-weight: bold; color: brown;">: </span>'pip' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 缓存 pip 依赖</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>安装依赖<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;python -m pip install --upgrade pip<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pip install -r requirements.txt<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pip install flake8 pytest &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 安装代码检查和测试工具<br />
+</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>运行代码格式检查（flake8）<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 检查语法错误和未定义变量（E9, F63, F7, F82 系列），发现问题直接报错退出<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 检查代码风格（最大行长度 120），只统计问题数量，不报错退出<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; flake8 . --count --max-line-length=120 --statistics<br />
+</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>运行测试<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>pytest tests/ -v &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># -v 输出详细测试结果</span><br />
+</div></div>
+
+<h3>示例三：构建并推送 Docker 镜像</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># .github/workflows/docker.yml</span><span style="color: green;"><br />
+name</span><span style="font-weight: bold; color: brown;">: </span>构建并推送 Docker 镜像<br />
+<span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; push</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; branches</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>main<span class="br0">&#93;</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; tags</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp; &nbsp; &nbsp;- 'v*' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 推送 v 开头的 tag 时触发，如 v1.0.0</span><br />
+<span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; docker</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># 使用官方 Docker 元数据 Action 自动生成镜像标签</span><br />
+&nbsp; &nbsp; &nbsp; <span style="color: blue;"># 如推送 tag v1.2.3 时，自动生成 1.2.3、1.2、1、latest 等多个标签</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>提取 Docker 元数据（镜像标签等）<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; id</span><span style="font-weight: bold; color: brown;">: </span>meta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 为此 Step 设置 ID，供后续 Step 引用其输出</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>docker/metadata-action@v5<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; images</span><span style="font-weight: bold; color: brown;">: </span>your-dockerhub-username/your-image-name<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>登录 Docker Hub<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>docker/login-action@v3<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; username</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.DOCKERHUB_USERNAME <span class="br0">&#125;</span><span class="br0">&#125;</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; password</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.DOCKERHUB_TOKEN <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; <span style="color: blue;"># 使用 Access Token 而非密码，更安全</span><br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>构建并推送镜像<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>docker/build-push-action@v5<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; context</span><span style="font-weight: bold; color: brown;">: </span>. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># Dockerfile 所在目录（当前目录）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; push</span><span style="font-weight: bold; color: brown;">: </span>true &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># true：构建完成后推送到 Registry</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; tags</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> steps.meta.outputs.tags <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 引用 meta Step 生成的标签列表</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; labels</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> steps.meta.outputs.labels <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; <span style="color: blue;"># 引用 meta Step 生成的标签信息</span><br />
+</div></div>
+
+<h3>示例四：构建后自动部署到服务器</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># .github/workflows/deploy.yml</span><span style="color: green;"><br />
+name</span><span style="font-weight: bold; color: brown;">: </span>构建并部署<br />
+<span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; push</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; branches</span><span style="font-weight: bold; color: brown;">: </span><span class="br0">&#91;</span>main<span class="br0">&#93;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 只有推送到 main 分支才触发部署</span><br />
+<span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; build-and-deploy</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/checkout@v4<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - uses</span><span style="font-weight: bold; color: brown;">: </span>actions/setup-node@v4<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; node-version</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">20</span>'<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cache</span><span style="font-weight: bold; color: brown;">: </span>'npm'<br />
+<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>安装依赖并构建<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;npm ci<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; npm run build &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 构建产物输出到 ./dist 目录<br />
+</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>通过 SSH 部署到服务器<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>appleboy/ssh-action@v1.0.3 &nbsp; <span style="color: blue;"># 第三方 SSH Action，无需手动配置 SSH</span><span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; host</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.SERVER_HOST <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 服务器 IP 或域名</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; username</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.SERVER_USER <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; <span style="color: blue;"># SSH 登录用户名</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.SSH_PRIVATE_KEY <span class="br0">&#125;</span><span class="br0">&#125;</span> &nbsp; &nbsp;<span style="color: blue;"># SSH 私钥内容（对应服务器上的公钥）</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; port</span><span style="font-weight: bold; color: brown;">: </span><span style="">22</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># SSH 端口，默认 22</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; script</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 以下命令在远程服务器上执行<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cd /var/www/my-app<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git pull origin main<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; npm ci --production<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pm2 restart my-app &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 用 pm2 重启 Node.js 应用<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo &quot;部署完成：$(date)&quot;</span><br />
+</div></div>
+
+<h3>示例五：定时任务（自动备份数据库）</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># .github/workflows/backup.yml</span><span style="color: green;"><br />
+name</span><span style="font-weight: bold; color: brown;">: </span>定时备份数据库<br />
+<span style="color: #007F45;"><br />
+on</span>:<span style="color: #007F45;"><br />
+&nbsp; schedule</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; - cron</span><span style="font-weight: bold; color: brown;">: </span>'<span style="">0</span> <span style="">2</span> * * *' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: blue;"># 每天 UTC 02:00（北京时间 10:00）执行</span><span style="color: green;"><br />
+&nbsp; workflow_dispatch</span><span style="font-weight: bold; color: brown;">: </span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 同时支持手动触发，方便临时备份</span><br />
+<span style="color: #007F45;"><br />
+jobs</span>:<span style="color: #007F45;"><br />
+&nbsp; backup</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; runs-on</span><span style="font-weight: bold; color: brown;">: </span>ubuntu-latest<br />
+<span style="color: #007F45;"><br />
+&nbsp; &nbsp; steps</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>通过 SSH 执行备份脚本<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; uses</span><span style="font-weight: bold; color: brown;">: </span>appleboy/ssh-action@v1.0.3<span style="color: #007F45;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; with</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; host</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.SERVER_HOST <span class="br0">&#125;</span><span class="br0">&#125;</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; username</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.SERVER_USER <span class="br0">&#125;</span><span class="br0">&#125;</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> secrets.SSH_PRIVATE_KEY <span class="br0">&#125;</span><span class="br0">&#125;</span><span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; script</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;TIMESTAMP=$(date +%Y%m%d_%H%M%S)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; BACKUP_FILE=&quot;/backup/db_$TIMESTAMP.sql&quot;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 执行数据库备份<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mysqldump -u root -p${{ secrets.DB_PASSWORD }} my_database &gt; $BACKUP_FILE<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 压缩备份文件<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; gzip $BACKUP_FILE<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 删除 30 天前的旧备份文件，避免磁盘占满<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; find /backup -name &quot;*.sql.gz&quot; -mtime +30 -delete<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo &quot;备份完成：${BACKUP_FILE}.gz&quot;</span><br />
+</div></div>
+
+<hr>
+<h2>调试技巧</h2>
+
+<h3>1、开启 Debug 日志</h3>
+
+<p>当 Workflow 运行失败但日志信息不够时，可以开启详细调试模式。方法：进入仓库 <strong>Settings → Secrets and variables → Actions</strong>，添加以下两个 Secret（值均设为 <code>true</code>）：</p>
+
+<ul>
+    <li><code>ACTIONS_RUNNER_DEBUG</code>：开启运行器详细日志</li>
+    <li><code>ACTIONS_STEP_DEBUG</code>：开启每个 Step 的详细调试日志</li>
+</ul>
+
+<h3>2、打印上下文信息辅助排查</h3>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span>:<span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>打印所有上下文信息（调试用，排查问题时加入，解决后删除）<span style="color: green;"><br />
+&nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: |<br />
+</span><span style="color: #303050;background-color: #F5F5F5"> &nbsp; &nbsp; &nbsp;echo &quot;=== github 上下文 ===&quot;<br />
+&nbsp; &nbsp; &nbsp; echo '${{ toJson(github) }}' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # toJson() 将对象格式化为 JSON 字符串输出<br />
+&nbsp; &nbsp; &nbsp; echo &quot;=== env 上下文 ===&quot;<br />
+&nbsp; &nbsp; &nbsp; echo '${{ toJson(env) }}'<br />
+&nbsp; &nbsp; &nbsp; echo &quot;=== job 上下文 ===&quot;<br />
+&nbsp; &nbsp; &nbsp; echo '${{ toJson(job) }}'</span><br />
+</div></div>
+
+<h3>3、本地测试 Workflow（使用 act）</h3>
+
+<p>每次推送代码才能测试 Workflow 效率很低。<code>act</code> 是一个开源工具，可以在本地模拟运行 GitHub Actions，大幅提升调试效率：</p>
+
+<pre>
+# 安装 act（需要本地已安装 Docker）
+# macOS
+brew install act
+
+# Linux
+curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+
+# 在仓库根目录运行所有 Workflow
+act
+
+# 只运行指定事件触发的 Workflow
+act push
+
+# 只运行指定的 Job
+act -j build
+</pre>
+
+<blockquote><p class="important">本地测试时，<code>act</code> 会使用 Docker 容器模拟 GitHub 运行环境，但部分 Action（如 <code>actions/cache</code>）在本地模拟时效果可能与真实环境有差异，最终结果以 GitHub 上实际运行为准。</p></blockquote>
+
+<hr>
+<h2>常见问题与注意事项</h2>
+
+<p><strong>1、权限问题（Permission denied）</strong></p>
+<p>如果 Workflow 需要向仓库推送代码或操作 Issues，需要在配置文件中显式声明权限：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">
+<span style="color: blue;"># 在 Workflow 顶层或 Job 级别设置权限</span><span style="color: #007F45;"><br />
+permissions</span>:<span style="color: green;"><br />
+&nbsp; contents</span><span style="font-weight: bold; color: brown;">: </span>write &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 允许读写仓库内容（代码、文件）</span><span style="color: green;"><br />
+&nbsp; issues</span><span style="font-weight: bold; color: brown;">: </span>write &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;"># 允许创建和修改 Issues</span><span style="color: green;"><br />
+&nbsp; pull-requests</span><span style="font-weight: bold; color: brown;">: </span>write &nbsp;<span style="color: blue;"># 允许操作 Pull Requests</span><br />
+<br />
+<span style="color: blue;"># 最小权限原则：只开放实际需要的权限，其余默认为 read 或 none</span><br />
+</div></div>
+
+<p><strong>2、避免 Workflow 循环触发</strong></p>
+<p>如果 Workflow 会自动向仓库推送代码，可能触发新的 push 事件，导致无限循环。解决方法：在自动提交的 commit message 中加入 <code>[skip ci]</code> 关键字，GitHub 会跳过该次提交的 Workflow 触发：</p>
+
+<pre>git commit -m "自动格式化代码 [skip ci]"</pre>
+
+<p><strong>3、YAML 特殊字符转义</strong></p>
+<p>在 <code>run</code> 字段的 Shell 命令中使用 <code>${{ }}</code> 表达式时，如果表达式包含冒号（<code>:</code>）等 YAML 特殊字符，需要用引号包裹整个值，或改为先赋值给环境变量再使用：</p>
+
+<div class="example"><h2 class="example">实例</h2><div class="example_code">span style="color: #007F45;"><br />
+steps</span><span style="font-weight: bold; color: brown;">:<br />
+</span> &nbsp;<span style="color: blue;"># 不推荐：${{ }} 表达式直接嵌入复杂命令，可能引发 YAML 解析错误</span><span style="color: green;"><br />
+&nbsp; - run</span><span style="font-weight: bold; color: brown;">: </span>echo $<span class="br0">&#123;</span><span class="br0">&#123;</span> github.event.pull_request.title <span class="br0">&#125;</span><span class="br0">&#125;</span><br />
+<br />
+&nbsp; <span style="color: blue;"># 推荐：先将值赋给环境变量，再在 Shell 中使用环境变量</span><span style="color: green;"><br />
+&nbsp; - name</span><span style="font-weight: bold; color: brown;">: </span>打印 PR 标题<span style="color: #007F45;"><br />
+&nbsp; &nbsp; env</span>:<span style="color: green;"><br />
+&nbsp; &nbsp; &nbsp; PR_TITLE</span><span style="font-weight: bold; color: brown;">: </span>$<span class="br0">&#123;</span><span class="br0">&#123;</span> github.event.pull_request.title <span class="br0">&#125;</span><span class="br0">&#125;</span><span style="color: green;"><br />
+&nbsp; &nbsp; run</span><span style="font-weight: bold; color: brown;">: </span>echo <span style="color: #CF00CF;">&quot;PR 标题：$PR_TITLE&quot;</span><br />
+</div></div>
+
+<p>更多完整文档请参考官方文档：<a href="https://docs.github.com/zh/actions" target="_blank" rel="noopener noreferrer">https://docs.github.com/zh/actions</a></p></section>
+</body></html>

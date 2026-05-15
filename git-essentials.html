@@ -509,7 +509,7 @@
       </div>
       <div class="card">
         <div class="card-icon">🔍</div>
-        <h4>git diff -p</h4>
+        <h4>git add -p</h4>
         <p>交互式暂存，可以只提交同一个文件里的部分改动，保持提交原子性。</p>
       </div>
       <div class="card">
@@ -564,18 +564,19 @@
       <h2>远程仓库协作</h2>
     </div>
 
-    <pre data-label="Remote"><code><span class="comment"># 拉取最新代码（推荐）</span>
-<span class="cmd">git pull</span> <span class="flag">--rebase</span> origin <span class="branch">main</span>   <span class="comment"># rebase 方式，历史更整洁</span>
+    <pre data-label="Remote"><code><span class="comment"># 先记概念：origin = 远程仓库名；origin/main = 远程跟踪分支（本地记录的远程 main 状态）</span>
+<span class="comment"># 拉取最新代码（推荐）</span>
+<span class="cmd">git pull</span> <span class="flag">--rebase</span> origin <span class="branch">main</span>   <span class="comment"># 这里写 remote + branch（不是写 origin/main）</span>
 
 <span class="comment"># 等价于以下两步</span>
-<span class="cmd">git fetch</span> origin
-<span class="cmd">git rebase</span> origin/<span class="branch">main</span>
+<span class="cmd">git fetch</span> origin               <span class="comment"># 更新远程信息到 origin/*，不改工作区</span>
+<span class="cmd">git rebase</span> origin/<span class="branch">main</span>       <span class="comment"># 这里才使用 origin/main 作为基线重放提交</span>
 
 <span class="comment"># 推送分支</span>
 <span class="cmd">git push</span> origin <span class="branch">feature/user-login</span>
 <span class="cmd">git push</span> <span class="flag">-u</span> origin <span class="branch">feature/user-login</span>  <span class="comment"># 设置上游，之后只需 git push</span>
 
-<span class="comment"># 查看远程信息</span>
+<span class="comment"># 查看远程信息（可看到 origin 实际 URL）</span>
 <span class="cmd">git remote</span> <span class="flag">-v</span>
 
 <span class="comment"># 从远程拉取新分支到本地</span>
